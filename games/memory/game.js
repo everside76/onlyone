@@ -143,7 +143,7 @@ function endGame() {
         let wins = parseInt(localStorage.getItem('onlyone_memory_wins') || '0') + 1;
         localStorage.setItem('onlyone_memory_wins', wins);
 
-        if (wins >= 5 && !localStorage.getItem('onlyone_coupon_오뎅탕')) {
+        if (wins >= 1 && !localStorage.getItem('onlyone_coupon_오뎅탕')) {
             localStorage.setItem('onlyone_coupon_오뎅탕', 'unlocked');
             showCouponUnlock('오뎅탕');
         }
@@ -159,7 +159,7 @@ function endGame() {
     if (localStorage.getItem('onlyone_coupon_오뎅탕')) {
         couponArea.innerHTML = '<button class="btn-coupon" onclick="location.href=\'../../coupons/index.html\'">🍢 오뎅탕 쿠폰 받기</button>';
     } else {
-        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 5번 클리어 시 오뎅탕 쿠폰 해금! (현재 ' + wins + '/5)</p>';
+        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 1번 클리어 시 오뎅탕 쿠폰 해금!</p>';
     }
 
     document.getElementById('game-over').classList.add('active');

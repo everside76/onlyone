@@ -118,7 +118,7 @@ function update() {
         speed = Math.max(80, 150 - Math.floor(score / 50) * 10);
         spawnFood();
         // 100점 달성 시 팝콘 쿠폰 해금
-        if (score >= 100 && !localStorage.getItem('onlyone_coupon_팝콘')) {
+        if (score >= 80 && !localStorage.getItem('onlyone_coupon_팝콘')) {
             localStorage.setItem('onlyone_coupon_팝콘', 'unlocked');
             showCouponUnlock('팝콘');
         }
@@ -151,7 +151,7 @@ function endGame() {
     if (localStorage.getItem('onlyone_coupon_팝콘')) {
         couponArea.innerHTML = '<button class="btn-coupon" onclick="location.href=\'../../coupons/index.html\'">🍿 팝콘 쿠폰 받기</button>';
     } else {
-        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 100점 달성 시 팝콘 쿠폰 해금! (현재 ' + score + '점)</p>';
+        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 80점 달성 시 팝콘 쿠폰 해금! (현재 ' + score + '점)</p>';
     }
     document.getElementById('game-over').classList.add('active');
 }
