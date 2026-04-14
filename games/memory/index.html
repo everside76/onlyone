@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>카드 뒤집기 - OnlyOne 게임</title>
+    <title>행사 카드 뒤집기 - OnlyOne 게임</title>
     <link rel="stylesheet" href="../../shared/style.css">
     <link rel="stylesheet" href="../style.css">
     <style>
         .memory-board {
             display: grid;
-            gap: 8px;
-            padding: 12px;
-            max-width: 400px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 16px;
+            max-width: 320px;
             margin: 0 auto;
         }
-        .memory-board.cols-4 { grid-template-columns: repeat(4, 1fr); }
-        .memory-board.cols-5 { grid-template-columns: repeat(5, 1fr); }
 
         .mem-card {
-            aspect-ratio: 3/4;
+            aspect-ratio: 1;
             perspective: 600px;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
@@ -42,20 +41,20 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .mem-card-back {
             background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #fff;
         }
         .mem-card-front {
             background: #fff;
             transform: rotateY(180deg);
-            font-size: 2rem;
+            font-size: 2.2rem;
             border: 2px solid #e0e0e0;
         }
 
@@ -68,26 +67,6 @@
             font-size: 0.85rem;
         }
         .memory-stats span { font-weight: 700; }
-
-        .difficulty-btns {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 12px;
-        }
-        .diff-btn {
-            padding: 8px 20px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: none;
-            color: #fff;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-        .diff-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
     </style>
 </head>
 <body>
@@ -102,21 +81,15 @@
     </div>
 
     <div class="memory-stats">
-        <div>매칭: <span id="matches">0</span> / <span id="total-pairs">0</span></div>
+        <div>매칭: <span id="matches">0</span> / <span id="total-pairs">4</span></div>
     </div>
 
-    <div class="memory-board cols-4" id="board"></div>
+    <div class="memory-board" id="board"></div>
 </div>
 
 <div class="game-start-overlay" id="start-screen">
     <h2>🃏 행사 카드 뒤집기</h2>
-    <p>소풍 행사 아이콘의 짝을 맞춰보세요!<br>5번 클리어하면 🍢 오뎅탕 쿠폰 해금!</p>
-    <div class="difficulty-btns">
-        <button class="diff-btn active" onclick="selectDiff(this, 12)">쉬움 (4x3)</button>
-        <button class="diff-btn" onclick="selectDiff(this, 16)">보통 (4x4)</button>
-        <button class="diff-btn" onclick="selectDiff(this, 20)">어려움 (5x4)</button>
-    </div>
-    <br>
+    <p>소풍 행사 아이콘의 짝을 맞춰보세요!<br>🎉 보너스 카드도 찾아보세요!<br>5번 클리어하면 🍢 오뎅탕 쿠폰 해금!</p>
     <button class="start-btn" onclick="startGame()">게임 시작</button>
 </div>
 
