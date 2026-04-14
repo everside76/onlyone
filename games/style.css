@@ -1,16 +1,22 @@
-/* ===== 게임 전용 스타일 ===== */
+/* ===== 게임 전용 스타일 (컬러풀) ===== */
 
 .game-card {
     background: var(--card-bg);
-    border-radius: var(--radius);
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    transition: transform 0.15s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.5s ease-out both;
 }
+.game-card:nth-child(1) { animation-delay: 0.1s; }
+.game-card:nth-child(2) { animation-delay: 0.2s; }
+.game-card:nth-child(3) { animation-delay: 0.3s; }
+
 .game-card:active {
-    transform: scale(0.96);
+    transform: scale(0.95);
+    box-shadow: var(--shadow-hover);
 }
 
 .game-card-icon {
@@ -19,36 +25,63 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 3.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 카드 아이콘 배경 장식 */
+.game-card-icon::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    top: -20px;
+    right: -20px;
 }
 
 .game-card-body {
-    padding: 10px 12px 14px;
+    padding: 12px 14px 16px;
 }
 
 .game-card-title {
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 800;
     margin-bottom: 4px;
 }
 
 .game-card-desc {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: var(--text-light);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .game-card-score {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.game-card-score.has-score {
+    background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(162,155,254,0.1));
     color: var(--primary);
-    font-weight: 600;
+}
+
+.game-card-score.no-score {
+    background: var(--bg);
+    color: var(--text-light);
 }
 
 /* 게임 공통 레이아웃 */
 .game-wrapper {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: #1a1a2e;
+    background: linear-gradient(180deg, #0F0C29 0%, #1A1A2E 50%, #16213E 100%);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -58,7 +91,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 16px;
+    padding: 12px 16px;
     background: rgba(0,0,0,0.3);
     color: #fff;
     z-index: 10;
@@ -67,7 +100,7 @@
 .game-top-bar .back {
     background: none;
     border: none;
-    color: #fff;
+    color: rgba(255,255,255,0.8);
     font-size: 0.85rem;
     display: flex;
     align-items: center;
@@ -75,17 +108,23 @@
 }
 
 .game-top-bar .score-display {
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FDCB6E, #FFA502);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .game-top-bar .pause-btn {
-    background: none;
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     color: #fff;
-    padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
 }
 
 .game-canvas-area {
@@ -97,9 +136,10 @@
 }
 
 .game-canvas-area canvas {
-    border-radius: 8px;
+    border-radius: 12px;
     max-width: 100%;
     max-height: 100%;
+    box-shadow: 0 0 40px rgba(108,92,231,0.2);
 }
 
 /* 게임 오버 오버레이 */
@@ -107,7 +147,8 @@
     display: none;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
     z-index: 100;
     flex-direction: column;
     align-items: center;
@@ -117,44 +158,55 @@
 
 .game-overlay.active {
     display: flex;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .game-overlay h2 {
     font-size: 1.8rem;
+    font-weight: 900;
     margin-bottom: 16px;
 }
 
 .game-overlay .final-score {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--primary);
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #FDCB6E, #FFA502);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 8px;
 }
 
 .game-overlay .high-score {
     font-size: 0.9rem;
-    color: #aaa;
+    color: #888;
     margin-bottom: 32px;
 }
 
 .game-overlay button {
-    padding: 14px 36px;
+    padding: 14px 40px;
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     margin: 6px;
+    transition: transform 0.2s;
+}
+.game-overlay button:active {
+    transform: scale(0.95);
 }
 
 .btn-restart {
-    background: var(--primary);
+    background: linear-gradient(135deg, #6C5CE7, #A29BFE);
     color: #fff;
+    box-shadow: 0 4px 16px rgba(108,92,231,0.4);
 }
 
 .btn-menu {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.1);
     color: #fff;
+    border: 1px solid rgba(255,255,255,0.15) !important;
 }
 
 /* 시작 화면 */
@@ -162,7 +214,8 @@
     display: flex;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.85);
+    background: linear-gradient(180deg, rgba(15,12,41,0.95), rgba(26,26,46,0.98));
+    backdrop-filter: blur(10px);
     z-index: 100;
     flex-direction: column;
     align-items: center;
@@ -175,26 +228,33 @@
 }
 
 .game-start-overlay h2 {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 12px;
 }
 
 .game-start-overlay p {
     font-size: 0.85rem;
-    color: #aaa;
-    margin-bottom: 32px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 36px;
     text-align: center;
     padding: 0 40px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .game-start-overlay .start-btn {
-    padding: 16px 48px;
-    background: var(--primary);
+    padding: 18px 56px;
+    background: linear-gradient(135deg, #6C5CE7, #A29BFE);
     color: #fff;
     border: none;
-    border-radius: 12px;
+    border-radius: 16px;
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
+    box-shadow: 0 8px 24px rgba(108,92,231,0.4);
+    transition: all 0.3s;
+    letter-spacing: 1px;
+}
+.game-start-overlay .start-btn:active {
+    transform: scale(0.95);
 }

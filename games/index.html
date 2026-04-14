@@ -56,7 +56,7 @@ function renderGames() {
                 <div class="game-card-body">
                     <div class="game-card-title">${g.title}</div>
                     <div class="game-card-desc">${g.desc}</div>
-                    <div class="game-card-score">${highScore > 0 ? '최고 점수: ' + highScore : '아직 플레이 기록 없음'}</div>
+                    <div class="game-card-score ${highScore > 0 ? 'has-score' : 'no-score'}">${highScore > 0 ? '🏆 최고: ' + highScore : '플레이해 보세요!'}</div>
                 </div>
             </a>
         `;
