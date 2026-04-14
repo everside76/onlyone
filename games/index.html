@@ -28,7 +28,8 @@ const GAMES = [
         color: 'linear-gradient(135deg, #6c5ce7, #a29bfe)',
         scoreKey: 'onlyone_tetris_high',
         couponKey: 'onlyone_coupon_짜장밥',
-        couponName: '🍚 짜장밥'
+        couponName: '🍚 짜장밥',
+        condition: '10줄 완성'
     },
     {
         id: 'memory',
@@ -38,7 +39,8 @@ const GAMES = [
         color: 'linear-gradient(135deg, #fd79a8, #e84393)',
         scoreKey: 'onlyone_memory_high',
         couponKey: 'onlyone_coupon_오뎅탕',
-        couponName: '🍢 오뎅탕'
+        couponName: '🍢 오뎅탕',
+        condition: '5번 클리어'
     },
     {
         id: 'snake',
@@ -48,7 +50,8 @@ const GAMES = [
         color: 'linear-gradient(135deg, #00b894, #55efc4)',
         scoreKey: 'onlyone_snake_high',
         couponKey: 'onlyone_coupon_팝콘',
-        couponName: '🍿 팝콘'
+        couponName: '🍿 팝콘',
+        condition: '100점 달성'
     },
     {
         id: 'quiz',
@@ -58,7 +61,8 @@ const GAMES = [
         color: 'linear-gradient(135deg, #F39C12, #FDCB6E)',
         scoreKey: 'onlyone_quiz_high',
         couponKey: 'onlyone_coupon_떡볶이',
-        couponName: '🌶️ 떡볶이'
+        couponName: '🌶️ 떡볶이',
+        condition: '5개 정답'
     }
 ];
 
@@ -69,7 +73,7 @@ function renderGames() {
         const unlocked = localStorage.getItem(g.couponKey);
         const couponHtml = unlocked
             ? `<div class="game-card-score has-score">🎟️ ${g.couponName} 쿠폰 해금!</div>`
-            : `<div class="game-card-score no-score">🔒 ${g.couponName} 쿠폰 도전</div>`;
+            : `<div class="game-card-score no-score">🔒 ${g.condition} → ${g.couponName} 쿠폰</div>`;
         return `
             <a href="${g.id}/index.html" class="game-card">
                 <div class="game-card-icon" style="background:${g.color}">${g.icon}</div>
