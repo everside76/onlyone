@@ -91,6 +91,11 @@ function clearLines() {
         lines += cleared;
         level = Math.floor(lines / 10) + 1;
         document.getElementById('score').textContent = score;
+        // 10줄 달성 시 짜장밥 쿠폰 해금
+        if (lines >= 10 && !localStorage.getItem('onlyone_coupon_짜장밥')) {
+            localStorage.setItem('onlyone_coupon_짜장밥', 'unlocked');
+            showCouponUnlock('짜장밥');
+        }
     }
 }
 
@@ -199,7 +204,22 @@ function endGame() {
     if (score > hi) localStorage.setItem('onlyone_tetris_high', score);
     document.getElementById('final-score').textContent = score;
     document.getElementById('high-score-text').textContent = '최고 점수: ' + Math.max(score, hi);
+    // 쿠폰 해금 여부 표시
+    const couponArea = document.getElementById('coupon-reward');
+    if (localStorage.getItem('onlyone_coupon_짜장밥')) {
+        couponArea.innerHTML = '<button class="btn-coupon" onclick="location.href=\'../../coupons/index.html\'">🍚 짜장밥 쿠폰 받기</button>';
+    } else {
+        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 10줄 완성 시 짜장밥 쿠폰 해금! (현재 ' + lines + '줄)</p>';
+    }
     document.getElementById('game-over').classList.add('active');
+}
+
+function showCouponUnlock(name) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:#fff;padding:20px 32px;border-radius:16px;z-index:999;text-align:center;font-size:1.1rem;font-weight:700;animation:fadeIn 0.3s ease-out;box-shadow:0 8px 32px rgba(0,0,0,0.5)';
+    toast.innerHTML = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🍚 ' + name + ' 교환권</span>';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
 }
 
 function togglePause() {

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>퀴즈 게임 - OnlyOne 게임</title>
+    <link rel="stylesheet" href="../../shared/style.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .quiz-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-progress {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .quiz-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.3s;
+        }
+        .quiz-dot.correct { background: #00B894; }
+        .quiz-dot.wrong { background: #FF6B6B; }
+        .quiz-dot.current { background: #fff; transform: scale(1.3); }
+
+        .quiz-number {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+        }
+
+        .quiz-question {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px 24px;
+            text-align: center;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 16px 20px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            text-align: left;
+        }
+        .quiz-option:active {
+            transform: scale(0.97);
+        }
+        .quiz-option.correct {
+            background: rgba(0,184,148,0.3);
+            border-color: #00B894;
+        }
+        .quiz-option.wrong {
+            background: rgba(255,107,107,0.3);
+            border-color: #FF6B6B;
+        }
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .quiz-feedback {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            min-height: 36px;
+        }
+    </style>
+</head>
+<body>
+<div class="game-wrapper">
+    <div class="game-top-bar">
+        <button class="back" onclick="location.href='../index.html'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            목록
+        </button>
+        <div class="score-display">정답: <span id="score">0</span> / <span id="total">10</span></div>
+    </div>
+
+    <div class="quiz-area" id="quiz-area">
+        <div class="quiz-progress" id="quiz-progress"></div>
+        <div class="quiz-number" id="quiz-number"></div>
+        <div class="quiz-question" id="quiz-question"></div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-feedback" id="quiz-feedback"></div>
+    </div>
+</div>
+
+<div class="game-start-overlay" id="start-screen">
+    <h2>❓ 행사 퀴즈</h2>
+    <p>Revival Only One 소풍 행사 퀴즈!<br>10문제 중 5개 이상 맞추면<br>🌶️ 떡볶이 쿠폰 해금!</p>
+    <button class="start-btn" onclick="startGame()">게임 시작</button>
+</div>
+
+<div class="game-overlay" id="game-over">
+    <h2>퀴즈 완료!</h2>
+    <div class="final-score" id="final-score">0</div>
+    <div class="high-score" id="result-text">10문제 중 0개 정답</div>
+    <div id="coupon-reward" style="margin-bottom:16px"></div>
+    <button class="btn-restart" onclick="startGame()">다시 하기</button>
+    <button class="btn-menu" onclick="location.href='../index.html'">목록으로</button>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

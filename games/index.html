@@ -26,7 +26,9 @@ const GAMES = [
         desc: '떨어지는 블록을 쌓아 줄을 완성하세요!',
         icon: '🧱',
         color: 'linear-gradient(135deg, #6c5ce7, #a29bfe)',
-        scoreKey: 'onlyone_tetris_high'
+        scoreKey: 'onlyone_tetris_high',
+        couponKey: 'onlyone_coupon_짜장밥',
+        couponName: '🍚 짜장밥'
     },
     {
         id: 'memory',
@@ -34,15 +36,29 @@ const GAMES = [
         desc: '같은 그림의 카드 쌍을 찾으세요!',
         icon: '🃏',
         color: 'linear-gradient(135deg, #fd79a8, #e84393)',
-        scoreKey: 'onlyone_memory_high'
+        scoreKey: 'onlyone_memory_high',
+        couponKey: 'onlyone_coupon_오뎅탕',
+        couponName: '🍢 오뎅탕'
     },
     {
         id: 'snake',
-        title: '뱀 게임',
-        desc: '먹이를 먹으며 뱀을 키우세요!',
-        icon: '🐍',
+        title: '애벌레 게임',
+        desc: '먹이를 먹으며 애벌레를 키우세요!',
+        icon: '🐛',
         color: 'linear-gradient(135deg, #00b894, #55efc4)',
-        scoreKey: 'onlyone_snake_high'
+        scoreKey: 'onlyone_snake_high',
+        couponKey: 'onlyone_coupon_팝콘',
+        couponName: '🍿 팝콘'
+    },
+    {
+        id: 'quiz',
+        title: '행사 퀴즈',
+        desc: '소풍 행사 퀴즈에 도전하세요!',
+        icon: '❓',
+        color: 'linear-gradient(135deg, #F39C12, #FDCB6E)',
+        scoreKey: 'onlyone_quiz_high',
+        couponKey: 'onlyone_coupon_떡볶이',
+        couponName: '🌶️ 떡볶이'
     }
 ];
 
@@ -50,13 +66,17 @@ function renderGames() {
     const container = document.getElementById('game-list');
     container.innerHTML = GAMES.map(g => {
         const highScore = localStorage.getItem(g.scoreKey) || 0;
+        const unlocked = localStorage.getItem(g.couponKey);
+        const couponHtml = unlocked
+            ? `<div class="game-card-score has-score">🎟️ ${g.couponName} 쿠폰 해금!</div>`
+            : `<div class="game-card-score no-score">🔒 ${g.couponName} 쿠폰 도전</div>`;
         return `
             <a href="${g.id}/index.html" class="game-card">
                 <div class="game-card-icon" style="background:${g.color}">${g.icon}</div>
                 <div class="game-card-body">
                     <div class="game-card-title">${g.title}</div>
                     <div class="game-card-desc">${g.desc}</div>
-                    <div class="game-card-score ${highScore > 0 ? 'has-score' : 'no-score'}">${highScore > 0 ? '🏆 최고: ' + highScore : '플레이해 보세요!'}</div>
+                    ${couponHtml}
                 </div>
             </a>
         `;

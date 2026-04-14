@@ -117,6 +117,11 @@ function update() {
         document.getElementById('score').textContent = score;
         speed = Math.max(80, 150 - Math.floor(score / 50) * 10);
         spawnFood();
+        // 100점 달성 시 팝콘 쿠폰 해금
+        if (score >= 100 && !localStorage.getItem('onlyone_coupon_팝콘')) {
+            localStorage.setItem('onlyone_coupon_팝콘', 'unlocked');
+            showCouponUnlock('팝콘');
+        }
     } else {
         snake.pop();
     }
@@ -141,7 +146,22 @@ function endGame() {
     if (score > hi) localStorage.setItem('onlyone_snake_high', score);
     document.getElementById('final-score').textContent = score;
     document.getElementById('high-score-text').textContent = '최고 점수: ' + Math.max(score, hi);
+    // 쿠폰 해금 여부 표시
+    const couponArea = document.getElementById('coupon-reward');
+    if (localStorage.getItem('onlyone_coupon_팝콘')) {
+        couponArea.innerHTML = '<button class="btn-coupon" onclick="location.href=\'../../coupons/index.html\'">🍿 팝콘 쿠폰 받기</button>';
+    } else {
+        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 100점 달성 시 팝콘 쿠폰 해금! (현재 ' + score + '점)</p>';
+    }
     document.getElementById('game-over').classList.add('active');
+}
+
+function showCouponUnlock(name) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:#fff;padding:20px 32px;border-radius:16px;z-index:999;text-align:center;font-size:1.1rem;font-weight:700;animation:fadeIn 0.3s ease-out;box-shadow:0 8px 32px rgba(0,0,0,0.5)';
+    toast.innerHTML = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🍿 ' + name + ' 교환권</span>';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
 }
 
 function togglePause() {

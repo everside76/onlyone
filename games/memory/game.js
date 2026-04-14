@@ -1,5 +1,5 @@
 /* ===== 카드 뒤집기 (메모리 게임) ===== */
-const EMOJIS = ['🍎','🍊','🍋','🍇','🍓','🍑','🥝','🍒','🌸','🌻'];
+const EMOJIS = ['⛪','🎵','🍖','🌤️','🎾','🤝','✝️','🎤','🌸','🙏'];
 let cardCount = 12;
 let cards = [];
 let flipped = [];
@@ -96,10 +96,37 @@ function endGame() {
     const hi = parseInt(localStorage.getItem('onlyone_memory_high') || '0');
     if (finalScore > hi) localStorage.setItem('onlyone_memory_high', finalScore);
 
+    // 클리어 횟수 추적
+    let wins = parseInt(localStorage.getItem('onlyone_memory_wins') || '0') + 1;
+    localStorage.setItem('onlyone_memory_wins', wins);
+
+    // 5번 클리어 시 오뎅탕 쿠폰 해금
+    if (wins >= 5 && !localStorage.getItem('onlyone_coupon_오뎅탕')) {
+        localStorage.setItem('onlyone_coupon_오뎅탕', 'unlocked');
+        showCouponUnlock('오뎅탕');
+    }
+
     document.getElementById('final-score').textContent = finalScore;
     document.getElementById('result-text').textContent = `${attempts}회 시도 / ${seconds}초`;
     document.getElementById('high-score-text').textContent = '최고 점수: ' + Math.max(finalScore, hi);
+
+    // 쿠폰 해금 여부 표시
+    const couponArea = document.getElementById('coupon-reward');
+    if (localStorage.getItem('onlyone_coupon_오뎅탕')) {
+        couponArea.innerHTML = '<button class="btn-coupon" onclick="location.href=\'../../coupons/index.html\'">🍢 오뎅탕 쿠폰 받기</button>';
+    } else {
+        couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 5번 클리어 시 오뎅탕 쿠폰 해금! (현재 ' + wins + '/5)</p>';
+    }
+
     document.getElementById('game-over').classList.add('active');
+}
+
+function showCouponUnlock(name) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:#fff;padding:20px 32px;border-radius:16px;z-index:999;text-align:center;font-size:1.1rem;font-weight:700;animation:fadeIn 0.3s ease-out;box-shadow:0 8px 32px rgba(0,0,0,0.5)';
+    toast.innerHTML = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🍢 ' + name + ' 교환권</span>';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
 }
 
 function startTimer() {

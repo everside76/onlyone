@@ -109,8 +109,8 @@
 </div>
 
 <div class="game-start-overlay" id="start-screen">
-    <h2>🃏 카드 뒤집기</h2>
-    <p>같은 그림의 카드 쌍을 찾아 뒤집으세요!<br>적은 시도로 완성할수록 높은 점수!</p>
+    <h2>🃏 행사 카드 뒤집기</h2>
+    <p>소풍 행사 아이콘의 짝을 맞춰보세요!<br>5번 클리어하면 🍢 오뎅탕 쿠폰 해금!</p>
     <div class="difficulty-btns">
         <button class="diff-btn active" onclick="selectDiff(this, 12)">쉬움 (4x3)</button>
         <button class="diff-btn" onclick="selectDiff(this, 16)">보통 (4x4)</button>
@@ -125,6 +125,7 @@
     <div class="final-score" id="final-score">0</div>
     <div class="high-score" id="result-text">0회 시도 / 0초</div>
     <div class="high-score" id="high-score-text">최고 점수: 0</div>
+    <div id="coupon-reward" style="margin-bottom:16px"></div>
     <button class="btn-restart" onclick="startGame()">다시 하기</button>
     <button class="btn-menu" onclick="location.href='../index.html'">목록으로</button>
 </div>

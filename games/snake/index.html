@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>뱀 게임 - OnlyOne 게임</title>
+    <title>애벌레 게임 - OnlyOne 게임</title>
     <link rel="stylesheet" href="../../shared/style.css">
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -23,8 +23,8 @@
 </div>
 
 <div class="game-start-overlay" id="start-screen">
-    <h2>🐍 뱀 게임</h2>
-    <p>스와이프하여 방향을 바꾸세요.<br>먹이를 먹으면 뱀이 길어집니다!<br>벽이나 자신의 몸에 부딪히면 게임 오버!</p>
+    <h2>🐛 애벌레 게임</h2>
+    <p>스와이프하여 방향을 바꾸세요.<br>먹이를 먹으면 애벌레가 길어집니다!<br>벽이나 자신의 몸에 부딪히면 게임 오버!</p>
     <button class="start-btn" onclick="startGame()">게임 시작</button>
 </div>
 
@@ -32,6 +32,7 @@
     <h2>게임 오버</h2>
     <div class="final-score" id="final-score">0</div>
     <div class="high-score" id="high-score-text">최고 점수: 0</div>
+    <div id="coupon-reward" style="margin-bottom:16px"></div>
     <button class="btn-restart" onclick="startGame()">다시 하기</button>
     <button class="btn-menu" onclick="location.href='../index.html'">목록으로</button>
 </div>

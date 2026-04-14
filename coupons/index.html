@@ -6,6 +6,37 @@
     <title>쿠폰함 - OnlyOne</title>
     <link rel="stylesheet" href="../shared/style.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .coupon-locked .coupon-inner {
+            filter: grayscale(0.8) brightness(0.6);
+        }
+        .coupon-locked .coupon-dl-btn {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .coupon-lock-info {
+            text-align: center;
+            padding: 6px 16px 0;
+            font-size: 0.72rem;
+            color: var(--text-light);
+        }
+        .coupon-lock-info a {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .coupon-unlocked-badge {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: rgba(0,184,148,0.9);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 8px;
+            z-index: 2;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,9 +46,13 @@
 
 <div class="content-area">
     <div class="coupon-list" id="coupon-list"></div>
-    <div class="coupon-notice">
-        다운로드 버튼을 눌러 쿠폰을 저장하세요.<br>
-        저장된 쿠폰을 현장에서 제시하면 교환 가능합니다.
+    <div class="coupon-notice" style="background:var(--card-bg);border-radius:16px;margin:0 16px;padding:16px 20px;box-shadow:var(--shadow);text-align:center;border-left:4px solid var(--primary);">
+        <div style="font-size:1rem;font-weight:800;margin-bottom:6px;">📍 쿠폰 사용 안내</div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--primary);margin-bottom:4px;">5월 3일 (주일) 뭉게뭉게 마켓</div>
+        <div style="font-size:0.78rem;color:var(--text-light);line-height:1.5;">
+            저장된 쿠폰을 현장에서 제시하면 교환 가능합니다.<br>
+            게임을 플레이하여 쿠폰을 해금하세요!
+        </div>
     </div>
 </div>
 
@@ -27,14 +62,19 @@
 <script src="coupon.js"></script>
 <script>
 function renderCoupons() {
+    checkAllGamesComplete();
+
     const container = document.getElementById('coupon-list');
-    container.innerHTML = COUPONS.map(c => `
-        <div class="coupon-card" data-coupon-id="${c.id}">
+    container.innerHTML = COUPONS.map(c => {
+        const unlocked = isUnlocked(c);
+        return `
+        <div class="coupon-card ${unlocked ? '' : 'coupon-locked'}" data-coupon-id="${c.id}">
+            ${unlocked ? '<div class="coupon-unlocked-badge">해금됨 ✓</div>' : ''}
             <div class="coupon-inner" style="background: linear-gradient(135deg, ${c.colors[0]}, ${c.colors[1]})">
                 <div class="coupon-emoji">${c.emoji}</div>
                 <div class="coupon-info">
                     <div class="coupon-name">${c.name}</div>
-                    <div class="coupon-label">${c.label}</div>
+                    <div class="coupon-label">${unlocked ? c.label : '🔒 잠김'}</div>
                 </div>
                 <div class="coupon-divider"></div>
                 <div class="coupon-download-area">
@@ -45,11 +85,13 @@ function renderCoupons() {
                             <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
                     </button>
-                    <span class="coupon-dl-text">저장</span>
+                    <span class="coupon-dl-text">${unlocked ? '저장' : ''}</span>
                 </div>
             </div>
+            ${unlocked ? '' : '<div class="coupon-lock-info">조건: ' + c.game + ' → <a href="../games/index.html">게임하러 가기</a></div>'}
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 renderCoupons();

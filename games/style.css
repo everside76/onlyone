@@ -258,3 +258,21 @@
 .game-start-overlay .start-btn:active {
     transform: scale(0.95);
 }
+
+/* 쿠폰 보상 버튼 */
+.btn-coupon {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #FDCB6E, #F39C12);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(243,156,18,0.4);
+    transition: transform 0.2s;
+    animation: fadeInUp 0.4s ease-out;
+}
+.btn-coupon:active {
+    transform: scale(0.95);
+}
