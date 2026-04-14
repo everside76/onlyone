@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>쿠폰함 - OnlyOne</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>🎟️ 쿠폰함</h1>
+</header>
+
+<div class="content-area">
+    <div class="coupon-list" id="coupon-list"></div>
+    <div class="coupon-notice">
+        다운로드 버튼을 눌러 쿠폰을 저장하세요.<br>
+        저장된 쿠폰을 현장에서 제시하면 교환 가능합니다.
+    </div>
+</div>
+
+<canvas id="coupon-canvas"></canvas>
+
+<script src="../shared/components.js"></script>
+<script src="coupon.js"></script>
+<script>
+function renderCoupons() {
+    const container = document.getElementById('coupon-list');
+    container.innerHTML = COUPONS.map(c => `
+        <div class="coupon-card" data-coupon-id="${c.id}">
+            <div class="coupon-inner" style="background: linear-gradient(135deg, ${c.colors[0]}, ${c.colors[1]})">
+                <div class="coupon-emoji">${c.emoji}</div>
+                <div class="coupon-info">
+                    <div class="coupon-name">${c.name}</div>
+                    <div class="coupon-label">${c.label}</div>
+                </div>
+                <div class="coupon-divider"></div>
+                <div class="coupon-download-area">
+                    <button class="coupon-dl-btn" onclick="downloadCoupon(${c.id})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
+                    <span class="coupon-dl-text">저장</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+renderCoupons();
+</script>
+</body>
+</html>

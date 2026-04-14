@@ -127,6 +127,8 @@
         .service-card:nth-child(2)::before { background: var(--gradient-main); }
         .service-card:nth-child(3) { animation: fadeInUp 0.5s ease-out 0.5s both; }
         .service-card:nth-child(3)::before { background: var(--gradient-cool); }
+        .service-card:nth-child(4) { animation: fadeInUp 0.5s ease-out 0.65s both; }
+        .service-card:nth-child(4)::before { background: linear-gradient(135deg, #F39C12, #FDCB6E); }
 
         .service-icon {
             width: 60px;
@@ -143,6 +145,7 @@
         .icon-events { background: linear-gradient(135deg, #FF6B6B, #FFA502); }
         .icon-webtoon { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
         .icon-games { background: linear-gradient(135deg, #00B894, #00CEC9); }
+        .icon-coupons { background: linear-gradient(135deg, #F39C12, #FDCB6E); }
 
         .service-info {
             flex: 1;
@@ -253,6 +256,17 @@
             <div class="service-info">
                 <div class="service-name">모바일 게임</div>
                 <div class="service-desc">간단한 게임으로 즐거운 시간!</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
+
+        <a href="coupons/index.html" class="service-card">
+            <div class="service-icon icon-coupons">🎟️</div>
+            <div class="service-info">
+                <div class="service-name">쿠폰 다운로드</div>
+                <div class="service-desc">음식 교환권을 받아가세요!</div>
             </div>
             <div class="service-arrow">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
