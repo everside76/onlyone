@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>모바일 웹툰</title>
+    <style>
+        /* 기본 스타일 및 모바일 최적화 */
+        body { margin: 0; font-family: -apple-system, sans-serif; background: #f5f5f5; color: #333; }
+        header { background: #fff; padding: 15px; text-align: center; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        h1 { margin: 0; font-size: 1.2rem; color: #222; }
+
+        /* 웹툰 리스트 그리드 */
+        .webtoon-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
+        .webtoon-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; }
+        .thumbnail { width: 100%; aspect-ratio: 3/4; background: #ddd; object-fit: cover; }
+        .title { padding: 8px; font-size: 0.9rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* 뷰어 모달 (전체 화면) */
+        #viewer { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; z-index: 200; overflow-y: auto; 
+        }
+        .viewer-header { 
+            position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.7); 
+            color: #fff; padding: 15px; display: flex; justify-content: space-between; 
+        }
+        .webtoon-images img { width: 100%; display: block; }
+        .back-btn { background: none; border: 1px solid #fff; color: #fff; padding: 5px 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>나의 무료 웹툰</h1>
+</header>
+
+<main class="webtoon-list">
+    <div class="webtoon-card" onclick="openViewer('웹툰 제목 1')">
+        <img src="https://via.placeholder.com/300x400" alt="썸네일" class="thumbnail">
+        <div class="title">웹툰 제목 1</div>
+    </div>
+    <div class="webtoon-card" onclick="openViewer('웹툰 제목 2')">
+        <img src="https://via.placeholder.com/300x400" alt="썸네일" class="thumbnail">
+        <div class="title">웹툰 제목 2</div>
+    </div>
+    <div class="webtoon-card" onclick="openViewer('웹툰 제목 3')">
+        <img src="https://via.placeholder.com/300x400" alt="썸네일" class="thumbnail">
+        <div class="title">웹툰 제목 3</div>
+    </div>
+</main>
+
+<div id="viewer">
+    <div class="viewer-header">
+        <span id="viewer-title">웹툰 제목</span>
+        <button class="back-btn" onclick="closeViewer()">닫기</button>
+    </div>
+    <div class="webtoon-images">
+        <img src="https://via.placeholder.com/800x1200?text=Webtoon+Page+1" alt="page1">
+        <img src="https://via.placeholder.com/800x1200?text=Webtoon+Page+2" alt="page2">
+        <img src="https://via.placeholder.com/800x1200?text=Webtoon+Page+3" alt="page3">
+    </div>
+</div>
+
+<script>
+    function openViewer(title) {
+        document.getElementById('viewer').style.display = 'block';
+        document.getElementById('viewer-title').innerText = title;
+        document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+    }
+
+    function closeViewer() {
+        document.getElementById('viewer').style.display = 'none';
+        document.body.style.overflow = 'auto'; // 스크롤 복원
+    }
+</script>
+
+</body>
+</html>
