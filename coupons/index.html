@@ -88,7 +88,7 @@ function renderCoupons() {
                     <span class="coupon-dl-text">${unlocked ? '저장' : ''}</span>
                 </div>
             </div>
-            ${unlocked ? '' : '<div class="coupon-lock-info">조건: ' + c.game + ' → <a href="../games/index.html">게임하러 가기</a></div>'}
+            <div class="coupon-lock-info">${unlocked ? '✅ ' : '🔒 '}조건: ${c.game}${unlocked ? '' : ' → <a href="../games/index.html">게임하러 가기</a>'}</div>
         </div>
         `;
     }).join('');

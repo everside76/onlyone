@@ -3,101 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>행사 카드 뒤집기 - OnlyOne 게임</title>
+    <title>두더지 잡기 - OnlyOne 게임</title>
     <link rel="stylesheet" href="../../shared/style.css">
     <link rel="stylesheet" href="../style.css">
     <style>
-        .memory-board {
+        .mole-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 12px;
             padding: 16px;
-            max-width: 320px;
+            max-width: 340px;
             margin: 0 auto;
         }
 
-        .mem-card {
+        .mole-hole {
             aspect-ratio: 1;
-            perspective: 600px;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .mem-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.4s;
-            transform-style: preserve-3d;
-        }
-        .mem-card.flipped .mem-card-inner {
-            transform: rotateY(180deg);
-        }
-        .mem-card.matched .mem-card-inner {
-            transform: rotateY(180deg);
-            opacity: 0.6;
-        }
-        .mem-card-front, .mem-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 2px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .mem-card-back {
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-            font-size: 1.8rem;
-            color: #fff;
-        }
-        .mem-card-front {
-            background: #fff;
-            transform: rotateY(180deg);
-            font-size: 2.2rem;
-            border: 2px solid #e0e0e0;
+            font-size: 2.5rem;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.15s, transform 0.15s;
+            user-select: none;
         }
 
-        .memory-stats {
+        .mole-hole.active {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(253,203,110,0.5);
+            animation: mole-pop 0.2s ease-out;
+        }
+
+        .mole-hole.hit {
+            background: rgba(0,184,148,0.3);
+            border-color: #00B894;
+            transform: scale(0.9);
+        }
+
+        .mole-hole.miss {
+            background: rgba(255,107,107,0.3);
+            border-color: #FF6B6B;
+        }
+
+        @keyframes mole-pop {
+            0% { transform: scale(0.5); }
+            100% { transform: scale(1); }
+        }
+
+        .mole-stats {
             display: flex;
             justify-content: center;
-            gap: 24px;
-            padding: 8px 0;
+            gap: 28px;
+            padding: 10px 0;
             color: #fff;
             font-size: 0.85rem;
         }
-        .memory-stats span { font-weight: 700; }
+        .mole-stats span { font-weight: 800; color: #FDCB6E; }
+
+        .mole-timer-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 16px;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 340px;
+            margin: 0 auto;
+        }
+        .mole-timer-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00B894, #FDCB6E);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
     </style>
 </head>
 <body>
-<div class="game-wrapper" style="background:#1a1a2e">
+<div class="game-wrapper">
     <div class="game-top-bar">
         <button class="back" onclick="location.href='../index.html'">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
             목록
         </button>
-        <div class="score-display">시도: <span id="attempts">0</span></div>
-        <div class="score-display" style="font-size:0.8rem">⏱ <span id="timer">0</span>초</div>
+        <div class="score-display">점수: <span id="score">0</span></div>
+        <div class="score-display" style="font-size:0.8rem">남은: <span id="remaining">30</span></div>
     </div>
 
-    <div class="memory-stats">
-        <div>매칭: <span id="matches">0</span> / <span id="total-pairs">4</span></div>
+    <div class="mole-stats">
+        <div>잡은 수: <span id="caught">0</span></div>
+        <div>놓친 수: <span id="missed">0</span></div>
     </div>
 
-    <div class="memory-board" id="board"></div>
+    <div class="mole-timer-bar"><div class="mole-timer-fill" id="timer-bar" style="width:100%"></div></div>
+
+    <div class="mole-board" id="board"></div>
 </div>
 
 <div class="game-start-overlay" id="start-screen">
-    <h2>🃏 행사 카드 뒤집기</h2>
-    <p>소풍 행사 아이콘의 짝을 맞춰보세요!<br>🎉 보너스 카드도 찾아보세요!</p>
+    <h2>🐹 두더지 잡기</h2>
+    <p>나타나는 두더지를 빠르게 터치하세요!<br>30마리 중 최대한 많이 잡으세요!</p>
     <p style="margin-top:12px;padding:8px 20px;background:rgba(255,255,255,0.1);border-radius:10px;font-size:0.82rem;color:#FDCB6E;font-weight:700;">🎟️ 5번 클리어 → 🍢 오뎅탕 쿠폰 해금!</p>
     <button class="start-btn" onclick="startGame()">게임 시작</button>
 </div>
 
 <div class="game-overlay" id="game-over">
-    <h2>축하합니다! 🎉</h2>
+    <h2>게임 완료!</h2>
     <div class="final-score" id="final-score">0</div>
-    <div class="high-score" id="result-text">0회 시도 / 0초</div>
+    <div class="high-score" id="result-text">30마리 중 0마리 잡음</div>
     <div class="high-score" id="high-score-text">최고 점수: 0</div>
     <div id="coupon-reward" style="margin-bottom:16px"></div>
     <button class="btn-restart" onclick="startGame()">다시 하기</button>

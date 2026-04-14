@@ -1,133 +1,159 @@
-/* ===== 행사 카드 뒤집기 (3x3 고정) ===== */
-const EMOJIS = ['⛪','🎵','🍖','🌤️'];
-const BONUS = '🎉';
-let cards = [];
-let flipped = [];
-let matched = 0;
-let attempts = 0;
-let totalPairs = 4;
-let timerInterval;
-let seconds = 0;
-let locked = false;
-let bonusFound = false;
+/* ===== 두더지 잡기 ===== */
+const MOLE_EMOJIS = ['🐹','🐰','🐻','🐶','🐱'];
+const BOMB_EMOJI = '💣';
+const TOTAL_MOLES = 30;
 
-function shuffle(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
+let score = 0;
+let caught = 0;
+let missed = 0;
+let remaining = TOTAL_MOLES;
+let gameRunning = false;
+let moleTimer = null;
+let currentMole = -1;
+let moleTimeout = null;
 
-function buildCards() {
-    // 4쌍(8장) + 보너스 1장 = 9장 (3x3)
-    const pairs = [...EMOJIS, ...EMOJIS];
-    cards = shuffle([...pairs, BONUS]);
-    bonusFound = false;
-
+function buildBoard() {
     const board = document.getElementById('board');
-    board.innerHTML = cards.map((emoji, i) => `
-        <div class="mem-card" data-index="${i}" onclick="flipCard(this)">
-            <div class="mem-card-inner">
-                <div class="mem-card-back">?</div>
-                <div class="mem-card-front">${emoji}</div>
-            </div>
-        </div>
-    `).join('');
-
-    document.getElementById('total-pairs').textContent = totalPairs;
-    document.getElementById('matches').textContent = '0';
-    document.getElementById('attempts').textContent = '0';
+    board.innerHTML = '';
+    for (let i = 0; i < 9; i++) {
+        const hole = document.createElement('div');
+        hole.className = 'mole-hole';
+        hole.dataset.index = i;
+        hole.addEventListener('click', () => tapHole(i));
+        board.appendChild(hole);
+    }
 }
 
-function flipCard(el) {
-    if (locked) return;
-    if (el.classList.contains('flipped') || el.classList.contains('matched')) return;
-
-    const idx = parseInt(el.dataset.index);
-
-    // 보너스 카드 처리 (짝 없는 카드)
-    if (cards[idx] === BONUS) {
-        el.classList.add('flipped');
-        el.classList.add('matched');
-        bonusFound = true;
-        // 이미 카드 1장이 뒤집혀 있으면 되돌리지 않음
-        if (flipped.length === 1) {
-            // 첫 번째 뒤집은 카드 되돌리기
-            locked = true;
-            setTimeout(() => {
-                flipped[0].classList.remove('flipped');
-                flipped = [];
-                locked = false;
-            }, 500);
-        }
-        checkComplete();
+function showMole() {
+    if (!gameRunning || remaining <= 0) {
+        endGame();
         return;
     }
 
-    // 이미 1장 뒤집혀 있는데 그게 보너스였으면 무시
-    if (flipped.length >= 2) return;
+    // 이전 두더지 제거
+    clearCurrentMole(true);
 
-    el.classList.add('flipped');
-    flipped.push(el);
+    // 새 두더지 위치 (이전과 다른 곳)
+    let pos;
+    do {
+        pos = Math.floor(Math.random() * 9);
+    } while (pos === currentMole);
+    currentMole = pos;
 
-    if (flipped.length === 2) {
-        attempts++;
-        document.getElementById('attempts').textContent = attempts;
+    // 폭탄 확률 20%
+    const isBomb = Math.random() < 0.2;
+    const emoji = isBomb ? BOMB_EMOJI : MOLE_EMOJIS[Math.floor(Math.random() * MOLE_EMOJIS.length)];
 
-        const i1 = parseInt(flipped[0].dataset.index);
-        const i2 = parseInt(flipped[1].dataset.index);
+    const holes = document.querySelectorAll('.mole-hole');
+    const hole = holes[pos];
+    hole.textContent = emoji;
+    hole.classList.add('active');
+    hole.dataset.type = isBomb ? 'bomb' : 'mole';
 
-        if (cards[i1] === cards[i2]) {
-            flipped[0].classList.add('matched');
-            flipped[1].classList.add('matched');
-            matched++;
-            document.getElementById('matches').textContent = matched;
-            flipped = [];
-            checkComplete();
-        } else {
-            locked = true;
-            setTimeout(() => {
-                flipped[0].classList.remove('flipped');
-                flipped[1].classList.remove('flipped');
-                flipped = [];
-                locked = false;
-            }, 700);
+    // 두더지 사라지는 시간 (점점 빨라짐)
+    const showTime = Math.max(500, 1200 - (TOTAL_MOLES - remaining) * 20);
+    moleTimeout = setTimeout(() => {
+        if (hole.classList.contains('active') && hole.dataset.type === 'mole') {
+            missed++;
+            document.getElementById('missed').textContent = missed;
+            hole.classList.remove('active');
+            hole.classList.add('miss');
+            setTimeout(() => { hole.classList.remove('miss'); hole.textContent = ''; }, 300);
+        } else if (hole.classList.contains('active')) {
+            hole.classList.remove('active');
+            hole.textContent = '';
         }
-    }
+        remaining--;
+        document.getElementById('remaining').textContent = remaining;
+        updateTimerBar();
+
+        if (remaining > 0) {
+            const gap = Math.max(200, 600 - (TOTAL_MOLES - remaining) * 10);
+            moleTimer = setTimeout(showMole, gap);
+        } else {
+            endGame();
+        }
+    }, showTime);
 }
 
-function checkComplete() {
-    if (matched === totalPairs && bonusFound) {
+function clearCurrentMole(silent) {
+    const holes = document.querySelectorAll('.mole-hole');
+    holes.forEach(h => {
+        h.classList.remove('active', 'hit', 'miss');
+        h.textContent = '';
+        h.dataset.type = '';
+    });
+}
+
+function tapHole(index) {
+    if (!gameRunning) return;
+    const holes = document.querySelectorAll('.mole-hole');
+    const hole = holes[index];
+
+    if (!hole.classList.contains('active')) return;
+
+    clearTimeout(moleTimeout);
+
+    if (hole.dataset.type === 'bomb') {
+        // 폭탄 터치 = 감점
+        score = Math.max(0, score - 30);
+        hole.classList.remove('active');
+        hole.classList.add('miss');
+        hole.textContent = '💥';
+        setTimeout(() => { hole.classList.remove('miss'); hole.textContent = ''; }, 400);
+    } else {
+        // 두더지 잡기 성공
+        caught++;
+        score += 10;
+        hole.classList.remove('active');
+        hole.classList.add('hit');
+        hole.textContent = '✅';
+        document.getElementById('caught').textContent = caught;
+        setTimeout(() => { hole.classList.remove('hit'); hole.textContent = ''; }, 300);
+    }
+
+    document.getElementById('score').textContent = score;
+    remaining--;
+    document.getElementById('remaining').textContent = remaining;
+    updateTimerBar();
+
+    if (remaining > 0) {
+        const gap = Math.max(200, 500 - (TOTAL_MOLES - remaining) * 10);
+        moleTimer = setTimeout(showMole, gap);
+    } else {
         endGame();
     }
 }
 
-function calcScore() {
-    const base = totalPairs * 100;
-    const penalty = Math.max(0, (attempts - totalPairs) * 10);
-    const timeBonus = Math.max(0, 200 - seconds * 2);
-    return Math.max(0, base - penalty + timeBonus);
+function updateTimerBar() {
+    const pct = (remaining / TOTAL_MOLES) * 100;
+    document.getElementById('timer-bar').style.width = pct + '%';
 }
 
 function endGame() {
-    clearInterval(timerInterval);
-    const finalScore = calcScore();
+    gameRunning = false;
+    clearTimeout(moleTimer);
+    clearTimeout(moleTimeout);
+
     const hi = parseInt(localStorage.getItem('onlyone_memory_high') || '0');
-    if (finalScore > hi) localStorage.setItem('onlyone_memory_high', finalScore);
+    if (score > hi) localStorage.setItem('onlyone_memory_high', score);
 
-    let wins = parseInt(localStorage.getItem('onlyone_memory_wins') || '0') + 1;
-    localStorage.setItem('onlyone_memory_wins', wins);
+    // 20마리 이상 잡으면 클리어로 인정
+    if (caught >= 20) {
+        let wins = parseInt(localStorage.getItem('onlyone_memory_wins') || '0') + 1;
+        localStorage.setItem('onlyone_memory_wins', wins);
 
-    if (wins >= 5 && !localStorage.getItem('onlyone_coupon_오뎅탕')) {
-        localStorage.setItem('onlyone_coupon_오뎅탕', 'unlocked');
-        showCouponUnlock('오뎅탕');
+        if (wins >= 5 && !localStorage.getItem('onlyone_coupon_오뎅탕')) {
+            localStorage.setItem('onlyone_coupon_오뎅탕', 'unlocked');
+            showCouponUnlock('오뎅탕');
+        }
     }
 
-    document.getElementById('final-score').textContent = finalScore;
-    document.getElementById('result-text').textContent = `${attempts}회 시도 / ${seconds}초`;
-    document.getElementById('high-score-text').textContent = '최고 점수: ' + Math.max(finalScore, hi);
+    const wins = parseInt(localStorage.getItem('onlyone_memory_wins') || '0');
+
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('result-text').textContent = `30마리 중 ${caught}마리 잡음 (${caught >= 20 ? '클리어!' : '20마리 이상 잡으면 클리어'})`;
+    document.getElementById('high-score-text').textContent = '최고 점수: ' + Math.max(score, hi);
 
     const couponArea = document.getElementById('coupon-reward');
     if (localStorage.getItem('onlyone_coupon_오뎅탕')) {
@@ -147,19 +173,18 @@ function showCouponUnlock(name) {
     setTimeout(() => toast.remove(), 2500);
 }
 
-function startTimer() {
-    seconds = 0;
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-        seconds++;
-        document.getElementById('timer').textContent = seconds;
-    }, 1000);
-}
-
 function startGame() {
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('game-over').classList.remove('active');
-    matched = 0; attempts = 0; flipped = []; locked = false;
-    buildCards();
-    startTimer();
+    score = 0; caught = 0; missed = 0; remaining = TOTAL_MOLES; currentMole = -1;
+    gameRunning = true;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('caught').textContent = '0';
+    document.getElementById('missed').textContent = '0';
+    document.getElementById('remaining').textContent = TOTAL_MOLES;
+    updateTimerBar();
+    buildBoard();
+    moleTimer = setTimeout(showMole, 800);
 }
+
+buildBoard();

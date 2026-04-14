@@ -189,7 +189,7 @@ function update(time) {
     lastTime = time;
     dropTimer += dt;
 
-    const speed = Math.max(100, 800 - (level - 1) * 70);
+    const speed = Math.max(80, 450 - (level - 1) * 50);
     if (dropTimer > speed) {
         drop();
         dropTimer = 0;
