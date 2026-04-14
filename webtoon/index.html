@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>웹툰 - OnlyOne</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>웹툰</h1>
+</header>
+
+<div class="content-area">
+    <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterGenre('all', this)">전체</button>
+        <button class="filter-tab" onclick="filterGenre('액션', this)">액션</button>
+        <button class="filter-tab" onclick="filterGenre('로맨스', this)">로맨스</button>
+        <button class="filter-tab" onclick="filterGenre('코미디', this)">코미디</button>
+        <button class="filter-tab" onclick="filterGenre('판타지', this)">판타지</button>
+        <button class="filter-tab" onclick="filterGenre('일상', this)">일상</button>
+    </div>
+
+    <div class="grid-3" id="series-list"></div>
+</div>
+
+<script src="../shared/components.js"></script>
+<script>
+// 시리즈 데이터
+const SERIES_LIST = [
+    {
+        id: 'series-001',
+        title: '용사의 하루',
+        author: '작가A',
+        genre: '판타지',
+        thumb: 'https://via.placeholder.com/300x400/667eea/fff?text=용사의+하루',
+        episodes: 3,
+        isNew: true
+    },
+    {
+        id: 'series-002',
+        title: '오늘도 출근',
+        author: '작가B',
+        genre: '일상',
+        thumb: 'https://via.placeholder.com/300x400/00b894/fff?text=오늘도+출근',
+        episodes: 2,
+        isNew: true
+    },
+    {
+        id: 'series-003',
+        title: '별빛 연가',
+        author: '작가C',
+        genre: '로맨스',
+        thumb: 'https://via.placeholder.com/300x400/e17055/fff?text=별빛+연가',
+        episodes: 3,
+        isNew: false
+    },
+    {
+        id: 'series-004',
+        title: '쿵쿵 배틀',
+        author: '작가D',
+        genre: '액션',
+        thumb: 'https://via.placeholder.com/300x400/d63031/fff?text=쿵쿵+배틀',
+        episodes: 1,
+        isNew: true
+    },
+    {
+        id: 'series-005',
+        title: '웃음 폭탄',
+        author: '작가E',
+        genre: '코미디',
+        thumb: 'https://via.placeholder.com/300x400/fdcb6e/333?text=웃음+폭탄',
+        episodes: 2,
+        isNew: false
+    },
+    {
+        id: 'series-006',
+        title: '마법학교',
+        author: '작가F',
+        genre: '판타지',
+        thumb: 'https://via.placeholder.com/300x400/6c5ce7/fff?text=마법학교',
+        episodes: 1,
+        isNew: false
+    }
+];
+
+function renderSeries(genre) {
+    const list = document.getElementById('series-list');
+    const filtered = genre === 'all' ? SERIES_LIST : SERIES_LIST.filter(s => s.genre === genre);
+
+    if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><p>해당 장르의 웹툰이 없습니다.</p></div>';
+        return;
+    }
+
+    list.innerHTML = filtered.map(s => `
+        <a href="series/${s.id}/index.html" class="series-card">
+            <img src="${s.thumb}" alt="${s.title}" class="series-thumb" loading="lazy">
+            <div class="series-info">
+                <div class="series-title">${s.isNew ? '<span class="badge badge-new">N</span> ' : ''}${s.title}</div>
+                <div class="series-meta">
+                    <span class="series-author">${s.author}</span>
+                    <span class="series-genre">${s.genre}</span>
+                </div>
+            </div>
+        </a>
+    `).join('');
+}
+
+function filterGenre(genre, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderSeries(genre);
+}
+
+renderSeries('all');
+</script>
+</body>
+</html>

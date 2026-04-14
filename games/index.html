@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>모바일 게임 - OnlyOne</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>모바일 게임</h1>
+</header>
+
+<div class="content-area">
+    <div class="grid-2" id="game-list"></div>
+</div>
+
+<script src="../shared/components.js"></script>
+<script>
+const GAMES = [
+    {
+        id: 'tetris',
+        title: '블록 쌓기',
+        desc: '떨어지는 블록을 쌓아 줄을 완성하세요!',
+        icon: '🧱',
+        color: 'linear-gradient(135deg, #6c5ce7, #a29bfe)',
+        scoreKey: 'onlyone_tetris_high'
+    },
+    {
+        id: 'memory',
+        title: '카드 뒤집기',
+        desc: '같은 그림의 카드 쌍을 찾으세요!',
+        icon: '🃏',
+        color: 'linear-gradient(135deg, #fd79a8, #e84393)',
+        scoreKey: 'onlyone_memory_high'
+    },
+    {
+        id: 'snake',
+        title: '뱀 게임',
+        desc: '먹이를 먹으며 뱀을 키우세요!',
+        icon: '🐍',
+        color: 'linear-gradient(135deg, #00b894, #55efc4)',
+        scoreKey: 'onlyone_snake_high'
+    }
+];
+
+function renderGames() {
+    const container = document.getElementById('game-list');
+    container.innerHTML = GAMES.map(g => {
+        const highScore = localStorage.getItem(g.scoreKey) || 0;
+        return `
+            <a href="${g.id}/index.html" class="game-card">
+                <div class="game-card-icon" style="background:${g.color}">${g.icon}</div>
+                <div class="game-card-body">
+                    <div class="game-card-title">${g.title}</div>
+                    <div class="game-card-desc">${g.desc}</div>
+                    <div class="game-card-score">${highScore > 0 ? '최고 점수: ' + highScore : '아직 플레이 기록 없음'}</div>
+                </div>
+            </a>
+        `;
+    }).join('');
+}
+
+renderGames();
+</script>
+</body>
+</html>

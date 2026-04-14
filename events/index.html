@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>행사 안내 - OnlyOne</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>행사 안내 / 영상</h1>
+</header>
+
+<div class="content-area">
+    <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterStatus('all', this)">전체</button>
+        <button class="filter-tab" onclick="filterStatus('upcoming', this)">예정</button>
+        <button class="filter-tab" onclick="filterStatus('ongoing', this)">진행중</button>
+        <button class="filter-tab" onclick="filterStatus('completed', this)">완료</button>
+    </div>
+
+    <div id="event-list" style="padding: 0 16px;"></div>
+</div>
+
+<script src="../shared/components.js"></script>
+<script src="data.js"></script>
+<script>
+const STATUS_LABELS = {
+    upcoming: '예정',
+    ongoing: '진행중',
+    completed: '완료'
+};
+
+const STATUS_BADGE = {
+    upcoming: 'badge-upcoming',
+    ongoing: 'badge-ongoing',
+    completed: 'badge-completed'
+};
+
+function getAutoStatus(event) {
+    const today = new Date().toISOString().split('T')[0];
+    if (event.date > today) return 'upcoming';
+    if (event.date === today) return 'ongoing';
+    return 'completed';
+}
+
+function renderEvents(status) {
+    const container = document.getElementById('event-list');
+    let filtered = EVENTS.map(e => ({ ...e, autoStatus: getAutoStatus(e) }));
+
+    if (status !== 'all') {
+        filtered = filtered.filter(e => e.autoStatus === status);
+    }
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p>해당하는 행사가 없습니다.</p></div>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(e => `
+        <a href="${e.id}.html" class="event-card">
+            <img src="${e.thumbnail}" alt="${e.title}" class="event-thumb" loading="lazy">
+            <div class="event-body">
+                <div class="event-badges">
+                    <span class="badge ${STATUS_BADGE[e.autoStatus]}">${STATUS_LABELS[e.autoStatus]}</span>
+                    <span class="badge" style="background:var(--bg);color:var(--text-light)">${e.category}</span>
+                </div>
+                <div class="event-title">${e.title}</div>
+                <div class="event-summary">${e.summary}</div>
+                <div class="event-meta">
+                    <div class="event-meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span>${e.date}</span>
+                    </div>
+                    <div class="event-meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span>${e.location}</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    `).join('');
+}
+
+function filterStatus(status, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderEvents(status);
+}
+
+renderEvents('all');
+</script>
+</body>
+</html>

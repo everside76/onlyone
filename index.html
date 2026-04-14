@@ -3,77 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>모바일 웹툰</title>
+    <meta name="description" content="OnlyOne - 행사 안내, 웹툰, 모바일 게임을 즐겨보세요">
+    <title>OnlyOne</title>
+    <link rel="stylesheet" href="shared/style.css">
     <style>
-        /* 기본 스타일 및 모바일 최적화 */
-        body { margin: 0; font-family: -apple-system, sans-serif; background: #f5f5f5; color: #333; }
-        header { background: #fff; padding: 15px; text-align: center; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        h1 { margin: 0; font-size: 1.2rem; color: #222; }
-
-        /* 웹툰 리스트 그리드 */
-        .webtoon-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
-        .webtoon-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; }
-        .thumbnail { width: 100%; aspect-ratio: 3/4; background: #ddd; object-fit: cover; }
-        .title { padding: 8px; font-size: 0.9rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* 뷰어 모달 (전체 화면) */
-        #viewer { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; z-index: 200; overflow-y: auto; 
+        .hero {
+            text-align: center;
+            padding: 32px 16px 16px;
         }
-        .viewer-header { 
-            position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.7); 
-            color: #fff; padding: 15px; display: flex; justify-content: space-between; 
+        .hero-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
         }
-        .webtoon-images img { width: 100%; display: block; }
-        .back-btn { background: none; border: 1px solid #fff; color: #fff; padding: 5px 10px; border-radius: 4px; }
+        .hero-sub {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .service-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.2s, transform 0.15s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .service-card:active {
+            transform: scale(0.97);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .service-icon svg {
+            width: 28px;
+            height: 28px;
+            color: #fff;
+        }
+
+        .icon-events { background: linear-gradient(135deg, #FF6B6B, #ee5a24); }
+        .icon-webtoon { background: linear-gradient(135deg, #4A90D9, #6c5ce7); }
+        .icon-games { background: linear-gradient(135deg, #00b894, #00cec9); }
+
+        .service-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .service-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .service-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .service-arrow {
+            color: var(--text-light);
+            flex-shrink: 0;
+        }
+
+        .notice-section {
+            padding: 16px;
+            max-width: 500px;
+            margin: 8px auto 0;
+        }
+        .notice-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+        .notice-item {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow);
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notice-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>나의 무료 웹툰</h1>
-</header>
+<div class="content-area">
+    <div class="hero">
+        <div class="hero-logo">OnlyOne</div>
+        <p class="hero-sub">행사 안내 / 웹툰 / 모바일 게임</p>
+    </div>
 
-<main class="webtoon-list">
-    <div class="webtoon-card" onclick="openViewer('웹툰 제목 1')">
-        <img src="https://via.placeholder.com/300x400" alt="썸네일" class="thumbnail">
-        <div class="title">웹툰 제목 1</div>
-    </div>
-    <div class="webtoon-card" onclick="openViewer('웹툰 제목 2')">
-        <img src="https://via.placeholder.com/300x400" alt="썸네일" class="thumbnail">
-        <div class="title">웹툰 제목 2</div>
-    </div>
-    <div class="webtoon-card" onclick="openViewer('웹툰 제목 3')">
-        <img src="https://via.placeholder.com/300x400" alt="썸네일" class="thumbnail">
-        <div class="title">웹툰 제목 3</div>
-    </div>
-</main>
+    <div class="service-cards">
+        <a href="events/index.html" class="service-card">
+            <div class="service-icon icon-events">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+            </div>
+            <div class="service-info">
+                <div class="service-name">행사 안내 / 영상</div>
+                <div class="service-desc">다양한 행사 정보와 영상을 확인하세요</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
 
-<div id="viewer">
-    <div class="viewer-header">
-        <span id="viewer-title">웹툰 제목</span>
-        <button class="back-btn" onclick="closeViewer()">닫기</button>
+        <a href="webtoon/index.html" class="service-card">
+            <div class="service-icon icon-webtoon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+            </div>
+            <div class="service-info">
+                <div class="service-name">웹툰</div>
+                <div class="service-desc">무료 웹툰을 감상하세요</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
+
+        <a href="games/index.html" class="service-card">
+            <div class="service-icon icon-games">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="6" y1="12" x2="10" y2="12"/>
+                    <line x1="8" y1="10" x2="8" y2="14"/>
+                    <line x1="15" y1="13" x2="15.01" y2="13"/>
+                    <line x1="18" y1="11" x2="18.01" y2="11"/>
+                    <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>
+                </svg>
+            </div>
+            <div class="service-info">
+                <div class="service-name">모바일 게임</div>
+                <div class="service-desc">간단한 게임으로 시간을 보내세요</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
     </div>
-    <div class="webtoon-images">
-        <img src="https://via.placeholder.com/800x1200?text=Webtoon+Page+1" alt="page1">
-        <img src="https://via.placeholder.com/800x1200?text=Webtoon+Page+2" alt="page2">
-        <img src="https://via.placeholder.com/800x1200?text=Webtoon+Page+3" alt="page3">
+
+    <div class="notice-section">
+        <div class="notice-title">공지사항</div>
+        <div class="notice-item">
+            <span>OnlyOne 사이트가 오픈되었습니다!</span>
+            <span class="notice-date">2026.04.14</span>
+        </div>
     </div>
 </div>
 
-<script>
-    function openViewer(title) {
-        document.getElementById('viewer').style.display = 'block';
-        document.getElementById('viewer-title').innerText = title;
-        document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
-    }
-
-    function closeViewer() {
-        document.getElementById('viewer').style.display = 'none';
-        document.body.style.overflow = 'auto'; // 스크롤 복원
-    }
-</script>
-
+<script src="shared/components.js"></script>
 </body>
 </html>

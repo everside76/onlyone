@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>용사의 하루 - OnlyOne 웹툰</title>
+    <link rel="stylesheet" href="../../../shared/style.css">
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<header class="page-header">
+    <a href="../../index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <h1>용사의 하루</h1>
+</header>
+
+<div class="content-area">
+    <div class="series-banner">
+        <img src="https://via.placeholder.com/800x400/667eea/fff?text=용사의+하루" alt="배너" id="banner-img">
+        <div class="series-banner-overlay">
+            <div class="banner-title" id="banner-title"></div>
+            <div class="banner-desc" id="banner-desc"></div>
+        </div>
+    </div>
+
+    <div class="ep-list">
+        <div class="ep-sort">
+            <span id="ep-count"></span>
+            <button onclick="toggleSort()">정렬 변경</button>
+        </div>
+        <div id="ep-list-items"></div>
+    </div>
+</div>
+
+<script src="../../../shared/components.js"></script>
+<script src="info.js"></script>
+<script>
+let ascending = false;
+
+function render() {
+    document.getElementById('banner-title').textContent = SERIES_INFO.title;
+    document.getElementById('banner-desc').textContent = SERIES_INFO.description;
+    document.getElementById('ep-count').textContent = `총 ${SERIES_INFO.episodes.length}화`;
+
+    const eps = ascending ? [...SERIES_INFO.episodes] : [...SERIES_INFO.episodes].reverse();
+    const container = document.getElementById('ep-list-items');
+    container.innerHTML = eps.map(ep => `
+        <a href="${ep.id}.html" class="ep-item">
+            <img src="${ep.thumb}" alt="${ep.title}" class="ep-thumb" loading="lazy">
+            <div class="ep-info">
+                <div class="ep-title">${ep.title}</div>
+                <div class="ep-date">${ep.date}</div>
+            </div>
+        </a>
+    `).join('');
+}
+
+function toggleSort() {
+    ascending = !ascending;
+    render();
+}
+
+render();
+</script>
+</body>
+</html>

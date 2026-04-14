@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2화 - 첫 번째 퀘스트 | 용사의 하루 - OnlyOne</title>
+    <link rel="stylesheet" href="../../../shared/style.css">
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<div class="viewer-overlay active">
+    <div class="viewer-header">
+        <button class="viewer-close" onclick="location.href='index.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="title">2화 - 첫 번째 퀘스트</span>
+    </div>
+    <div class="progress-bar" id="progress"></div>
+    <div class="viewer-images" id="viewer-images">
+        <img src="https://via.placeholder.com/800x1200/764ba2/fff?text=2화+Page+1" alt="p1" loading="lazy">
+        <img src="https://via.placeholder.com/800x1200/6c5ce7/fff?text=2화+Page+2" alt="p2" loading="lazy">
+        <img src="https://via.placeholder.com/800x1200/5f27cd/fff?text=2화+Page+3" alt="p3" loading="lazy">
+        <img src="https://via.placeholder.com/800x1200/341f97/fff?text=2화+Page+4" alt="p4" loading="lazy">
+    </div>
+    <div class="viewer-nav">
+        <a href="ep-001.html">이전 화</a>
+        <a href="ep-003.html">다음 화</a>
+    </div>
+</div>
+
+<script>
+const overlay = document.querySelector('.viewer-overlay');
+const progress = document.getElementById('progress');
+const header = document.querySelector('.viewer-header');
+let lastScroll = 0;
+
+overlay.addEventListener('scroll', function() {
+    const scrollTop = this.scrollTop;
+    const scrollHeight = this.scrollHeight - this.clientHeight;
+    progress.style.width = (scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0) + '%';
+    if (scrollTop > lastScroll && scrollTop > 100) header.classList.add('hidden');
+    else header.classList.remove('hidden');
+    lastScroll = scrollTop;
+});
+
+document.querySelector('.viewer-images').addEventListener('click', function() {
+    header.classList.toggle('hidden');
+});
+
+document.body.style.overflow = 'hidden';
+</script>
+</body>
+</html>
