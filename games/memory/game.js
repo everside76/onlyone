@@ -1,5 +1,5 @@
 /* ===== 두더지 잡기 ===== */
-const MOLE_EMOJIS = ['🐹','🐰','🐻','🐶','🐱'];
+const MOLE_EMOJIS = ['🐹'];
 const BOMB_EMOJI = '💣';
 const TOTAL_MOLES = 30;
 
