@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="OnlyOne - 행사 안내, 웹툰, 모바일 게임을 즐겨보세요">
+    <meta name="description" content="혜림교회 Revival Only One - 행사 안내, 모바일 게임, 쿠폰">
+    <meta name="theme-color" content="#6C5CE7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="뭉게뭉게챌린지">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <title>2026 혜림교회 리바이벌 온리원 프로젝트</title>
     <link rel="stylesheet" href="shared/style.css">
     <style>
@@ -288,6 +294,10 @@
     </div>
 
     <div class="home-footer">
+        <!-- 홈 화면 추가 버튼 -->
+        <button id="install-btn" onclick="installApp()" style="display:none;background:linear-gradient(135deg,#6C5CE7,#A29BFE);color:#fff;border:none;font-size:0.82rem;font-weight:700;padding:10px 24px;border-radius:12px;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 12px rgba(108,92,231,0.3);">
+            📲 홈 화면에 추가
+        </button>
         <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:8px;font-size:0.7rem;color:#aaa;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             모바일에 최적화된 사이트입니다
@@ -299,6 +309,37 @@
 
 <script src="shared/components.js"></script>
 <script>
+// 홈 화면 추가 (PWA Install)
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('install-btn').style.display = 'inline-block';
+});
+
+function installApp() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            document.getElementById('install-btn').style.display = 'none';
+        });
+    } else {
+        // iOS Safari 안내
+        const ua = navigator.userAgent;
+        if (/iPhone|iPad/.test(ua)) {
+            alert('Safari 하단의 공유 버튼(□↑)을 누르고\n"홈 화면에 추가"를 선택하세요.');
+        } else {
+            alert('브라우저 메뉴에서 "홈 화면에 추가"를 선택하세요.');
+        }
+    }
+}
+
+// iOS에서는 항상 버튼 표시
+if (/iPhone|iPad/.test(navigator.userAgent) && !window.navigator.standalone) {
+    document.getElementById('install-btn').style.display = 'inline-block';
+}
+
 // 공지사항 TXT 파일 로드
 fetch('notices.txt')
     .then(r => r.text())
