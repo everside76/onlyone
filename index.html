@@ -405,19 +405,19 @@ fetch('notices.txt')
             container.innerHTML = '<div class="notice-item"><span>등록된 공지사항이 없습니다.</span></div>';
             return;
         }
-        container.innerHTML = notices.map(block => {
+        // 날짜 파싱 후 최신순 정렬
+        const parsed = notices.map(block => {
             const lines = block.trim().split('\n');
-            const date = lines[0] || '';
-            const title = lines[1] || '';
-            const body = lines.slice(2).join('<br>');
-            return `<div class="notice-item">
+            return { date: lines[0] || '', title: lines[1] || '', body: lines.slice(2).join('<br>') };
+        }).sort((a, b) => a.date.replace(/\./g, '') > b.date.replace(/\./g, '') ? -1 : 1);
+
+        container.innerHTML = parsed.map(n => `<div class="notice-item">
                 <div class="notice-item-header">
-                    <span class="notice-item-title">${title}</span>
-                    <span class="notice-date">${date}</span>
+                    <span class="notice-item-title">${n.title}</span>
+                    <span class="notice-date">${n.date}</span>
                 </div>
-                ${body ? '<div class="notice-item-body">' + body + '</div>' : ''}
-            </div>`;
-        }).join('');
+                ${n.body ? '<div class="notice-item-body">' + n.body + '</div>' : ''}
+            </div>`).join('');
     })
     .catch(() => {
         document.getElementById('notice-list').innerHTML = '<div class="notice-item"><span>공지사항을 불러올 수 없습니다.</span></div>';
