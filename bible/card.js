@@ -162,7 +162,7 @@ function generateImage() {
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     const maxTextWidth = W - 160;
-    const fontSize = 40;
+    const fontSize = 54;
     ctx.font = `bold ${fontSize}px "Noto Sans KR", sans-serif`;
 
     const lines = wrapText(ctx, currentVerse.text, maxTextWidth);
@@ -175,9 +175,9 @@ function generateImage() {
     });
 
     // 출처
-    ctx.font = 'bold 28px "Noto Sans KR", sans-serif';
+    ctx.font = 'bold 36px "Noto Sans KR", sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('- ' + currentVerse.ref + ' -', W / 2, startY + lines.length * lineHeight + 30);
+    ctx.fillText('- ' + currentVerse.ref + ' -', W / 2, startY + lines.length * lineHeight + 40);
 
     // 하단 사용처 안내
     ctx.font = '18px "Noto Sans KR", sans-serif';
