@@ -1,0 +1,176 @@
+/* ===== 말씀 카드 전용 스타일 ===== */
+
+.bible-intro {
+    text-align: center;
+    padding: 28px 20px 8px;
+    animation: fadeIn 0.5s ease-out both;
+}
+
+.bible-intro-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.bible-intro-text {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+/* 카드 프리뷰 */
+.card-preview-wrap {
+    padding: 0 16px;
+    margin-bottom: 16px;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.card-preview {
+    aspect-ratio: 1;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 28px;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transition: background 0.5s;
+}
+
+.card-preview::before {
+    content: '✝';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    opacity: 0.3;
+}
+
+.card-preview .empty-msg {
+    font-size: 1.1rem;
+    font-weight: 700;
+    opacity: 0.6;
+}
+
+.preview-text {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.8;
+    white-space: pre-line;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.preview-ref {
+    margin-top: 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0.75;
+}
+
+.preview-logo {
+    position: absolute;
+    bottom: 14px;
+    font-size: 0.65rem;
+    opacity: 0.4;
+}
+
+/* 뽑기 버튼 */
+.pick-btn-wrap {
+    text-align: center;
+    padding: 0 16px 16px;
+    animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+.pick-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(108,92,231,0.35);
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.pick-btn:active {
+    transform: scale(0.96);
+}
+
+/* 테마 선택 */
+.theme-selector {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 16px 16px;
+    animation: fadeInUp 0.5s ease-out 0.25s both;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.theme-btn.active {
+    border-color: #fff;
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+/* 액션 버튼 */
+.card-actions {
+    display: none;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 16px 20px;
+    animation: fadeInUp 0.3s ease-out both;
+}
+
+.action-btn {
+    flex: 1;
+    max-width: 180px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.btn-download {
+    background: linear-gradient(135deg, #FDCB6E, #F39C12);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(243,156,18,0.3);
+}
+
+.btn-share {
+    background: rgba(108,92,231,0.1);
+    color: var(--primary);
+    border: 2px solid var(--primary) !important;
+}
+
+/* 캔버스 숨김 */
+#card-canvas {
+    display: none;
+}

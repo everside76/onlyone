@@ -133,6 +133,8 @@
         .service-card:nth-child(2)::before { background: var(--gradient-cool); }
         .service-card:nth-child(3) { animation: fadeInUp 0.5s ease-out 0.5s both; }
         .service-card:nth-child(3)::before { background: linear-gradient(135deg, #F39C12, #FDCB6E); }
+        .service-card:nth-child(4) { animation: fadeInUp 0.5s ease-out 0.65s both; }
+        .service-card:nth-child(4)::before { background: linear-gradient(135deg, #667eea, #764ba2); }
 
         .service-icon {
             width: 60px;
@@ -150,6 +152,7 @@
         .icon-webtoon { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
         .icon-games { background: linear-gradient(135deg, #00B894, #00CEC9); }
         .icon-coupons { background: linear-gradient(135deg, #F39C12, #FDCB6E); }
+        .icon-bible { background: linear-gradient(135deg, #667eea, #764ba2); }
 
         .service-info {
             flex: 1;
@@ -322,6 +325,17 @@ function openExternalBrowser() {
             <div class="service-info">
                 <div class="service-name">쿠폰 다운로드</div>
                 <div class="service-desc">음식 교환권을 받아가세요!</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
+
+        <a href="bible/index.html" class="service-card">
+            <div class="service-icon icon-bible">✨</div>
+            <div class="service-info">
+                <div class="service-name">말씀 카드</div>
+                <div class="service-desc">오늘의 말씀을 뽑고 카드로 저장!</div>
             </div>
             <div class="service-arrow">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>

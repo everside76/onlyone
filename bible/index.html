@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>말씀 카드 - OnlyOne</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>말씀 카드</h1>
+</header>
+
+<div class="content-area">
+    <div class="bible-intro">
+        <div class="bible-intro-emoji">✨</div>
+        <p class="bible-intro-text">오늘 나에게 주시는 말씀을 뽑아보세요!<br>예쁜 카드로 저장하고 친구에게 공유할 수 있어요.</p>
+    </div>
+
+    <!-- 카드 프리뷰 -->
+    <div class="card-preview-wrap">
+        <div class="card-preview" id="card-preview">
+            <span class="empty-msg">아래 버튼을 눌러 말씀을 뽑아보세요!</span>
+            <span class="preview-text" id="preview-text" style="display:none;"></span>
+            <span class="preview-ref" id="preview-ref" style="display:none;"></span>
+            <span class="preview-logo">OnlyOne | 혜림교회</span>
+        </div>
+    </div>
+
+    <!-- 테마 선택 -->
+    <div class="theme-selector" id="theme-selector"></div>
+
+    <!-- 뽑기 버튼 -->
+    <div class="pick-btn-wrap">
+        <button class="pick-btn" onclick="pickVerse()">✨ 말씀 뽑기</button>
+    </div>
+
+    <!-- 저장/공유 -->
+    <div class="card-actions" id="card-actions">
+        <button class="action-btn btn-download" onclick="downloadCard()">📥 저장하기</button>
+        <button class="action-btn btn-share" onclick="shareCard()">🔗 공유하기</button>
+    </div>
+</div>
+
+<canvas id="card-canvas"></canvas>
+
+<script src="../shared/components.js"></script>
+<script src="card.js"></script>
+<script>
+// 테마 버튼 렌더링
+const selector = document.getElementById('theme-selector');
+selector.innerHTML = THEMES.map((t, i) =>
+    `<button class="theme-btn ${i === 0 ? 'active' : ''}" style="background:linear-gradient(135deg,${t.colors[0]},${t.colors[1]})" onclick="setTheme(${i})" title="${t.name}"></button>`
+).join('');
+
+// 프리뷰 렌더링 오버라이드 (빈 상태 처리)
+const origRender = renderPreview;
+renderPreview = function() {
+    document.querySelector('.empty-msg').style.display = 'none';
+    document.getElementById('preview-text').style.display = 'block';
+    document.getElementById('preview-ref').style.display = 'block';
+    origRender();
+};
+</script>
+</body>
+</html>
