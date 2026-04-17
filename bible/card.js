@@ -92,21 +92,36 @@ function renderPreview() {
  * 텍스트를 캔버스 폭에 맞게 자동 줄바꿈
  */
 function wrapText(ctx, text, maxWidth) {
-    const chars = text.split('');
+    // 어절(띄어쓰기) 단위로 줄바꿈하여 한 글자 밀림 방지
+    const words = text.split(' ');
     const lines = [];
     let currentLine = '';
 
-    for (let i = 0; i < chars.length; i++) {
-        const testLine = currentLine + chars[i];
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth && currentLine.length > 0) {
+    for (let i = 0; i < words.length; i++) {
+        const testLine = currentLine ? currentLine + ' ' + words[i] : words[i];
+        if (ctx.measureText(testLine).width > maxWidth && currentLine.length > 0) {
             lines.push(currentLine);
-            currentLine = chars[i];
+            currentLine = words[i];
         } else {
             currentLine = testLine;
         }
     }
     if (currentLine) lines.push(currentLine);
+
+    // 마지막 줄이 2글자 이하면 이전 줄에서 단어를 가져와 합침
+    if (lines.length >= 2) {
+        const lastLine = lines[lines.length - 1];
+        if (lastLine.length <= 2) {
+            const prevLine = lines[lines.length - 2];
+            const prevWords = prevLine.split(' ');
+            if (prevWords.length >= 2) {
+                const moved = prevWords.pop();
+                lines[lines.length - 2] = prevWords.join(' ');
+                lines[lines.length - 1] = moved + ' ' + lastLine;
+            }
+        }
+    }
+
     return lines;
 }
 
