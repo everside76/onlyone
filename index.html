@@ -395,6 +395,18 @@ if (/iPhone|iPad/.test(navigator.userAgent) && !window.navigator.standalone) {
     document.getElementById('install-btn').style.display = 'inline-block';
 }
 
+function toggleNotices() {
+    const more = document.getElementById('notice-more');
+    const btn = document.getElementById('notice-toggle');
+    if (more.style.display === 'none') {
+        more.style.display = 'block';
+        btn.textContent = '접기 ▲';
+    } else {
+        more.style.display = 'none';
+        btn.textContent = '이전 공지 더 보기 ▼';
+    }
+}
+
 // 공지사항 TXT 파일 로드
 fetch('notices.txt')
     .then(r => r.text())
@@ -411,13 +423,30 @@ fetch('notices.txt')
             return { date: lines[0] || '', title: lines[1] || '', body: lines.slice(2).join('<br>') };
         }).sort((a, b) => a.date.replace(/\./g, '') > b.date.replace(/\./g, '') ? -1 : 1);
 
-        container.innerHTML = parsed.map(n => `<div class="notice-item">
+        // 최신 2개만 표시
+        const top2 = parsed.slice(0, 2);
+        const rest = parsed.slice(2);
+
+        let html = top2.map(n => `<div class="notice-item">
                 <div class="notice-item-header">
                     <span class="notice-item-title">${n.title}</span>
                     <span class="notice-date">${n.date}</span>
                 </div>
                 ${n.body ? '<div class="notice-item-body">' + n.body + '</div>' : ''}
             </div>`).join('');
+
+        if (rest.length > 0) {
+            html += `<div id="notice-more" style="display:none;">${rest.map(n => `<div class="notice-item">
+                <div class="notice-item-header">
+                    <span class="notice-item-title">${n.title}</span>
+                    <span class="notice-date">${n.date}</span>
+                </div>
+                ${n.body ? '<div class="notice-item-body">' + n.body + '</div>' : ''}
+            </div>`).join('')}</div>`;
+            html += `<button id="notice-toggle" onclick="toggleNotices()" style="display:block;width:100%;padding:10px;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;font-size:0.8rem;font-weight:600;color:var(--primary);cursor:pointer;">이전 공지 ${rest.length}건 더 보기 ▼</button>`;
+        }
+
+        container.innerHTML = html;
     })
     .catch(() => {
         document.getElementById('notice-list').innerHTML = '<div class="notice-item"><span>공지사항을 불러올 수 없습니다.</span></div>';
