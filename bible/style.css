@@ -61,8 +61,10 @@
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.8;
-    white-space: pre-line;
     text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    padding: 0 8px;
 }
 
 .preview-ref {
