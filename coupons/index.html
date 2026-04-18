@@ -62,8 +62,6 @@
 <script src="coupon.js"></script>
 <script>
 function renderCoupons() {
-    checkAllGamesComplete();
-
     const container = document.getElementById('coupon-list');
     container.innerHTML = COUPONS.map(c => {
         const unlocked = isUnlocked(c);
