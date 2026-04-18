@@ -4,21 +4,8 @@ const COUPONS = [
     { id: 1, name: '짜장밥',  emoji: '🍚', label: '교환권', colors: ['#2C3E50', '#3498DB'], key: 'onlyone_coupon_짜장밥', game: '블록 쌓기 10줄 완성' },
     { id: 2, name: '오뎅탕',  emoji: '🍢', label: '교환권', colors: ['#E74C3C', '#F39C12'], key: 'onlyone_coupon_오뎅탕', game: '두더지 잡기 1회 클리어' },
     { id: 3, name: '팝콘',    emoji: '🍿', label: '교환권', colors: ['#8E44AD', '#E84393'], key: 'onlyone_coupon_팝콘', game: '애벌레 게임 80점 달성' },
-    { id: 4, name: '떡볶이',  emoji: '🌶️', label: '교환권', colors: ['#D63031', '#E17055'], key: 'onlyone_coupon_떡볶이', game: '퀴즈 게임 5개 정답' },
-    { id: 5, name: '닭꼬치',  emoji: '🍗', label: '교환권', colors: ['#00B894', '#00CEC9'], key: 'onlyone_coupon_닭꼬치', game: '모든 게임 쿠폰 해금' }
+    { id: 4, name: '떡볶이',  emoji: '🌶️', label: '교환권', colors: ['#D63031', '#E17055'], key: 'onlyone_coupon_떡볶이', game: '퀴즈 게임 5개 정답' }
 ];
-
-/**
- * 닭꼬치 쿠폰 자동 해금 체크
- */
-function checkAllGamesComplete() {
-    const required = ['onlyone_coupon_짜장밥', 'onlyone_coupon_오뎅탕', 'onlyone_coupon_팝콘', 'onlyone_coupon_떡볶이'];
-    const allDone = required.every(k => localStorage.getItem(k));
-    if (allDone && !localStorage.getItem('onlyone_coupon_닭꼬치')) {
-        localStorage.setItem('onlyone_coupon_닭꼬치', 'unlocked');
-        showToast('🎉 모든 게임 완료! 닭꼬치 쿠폰이 해금되었습니다!');
-    }
-}
 
 /**
  * 쿠폰 해금 여부 확인
