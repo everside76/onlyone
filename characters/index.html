@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>성경 인물 도감 - OnlyOne</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <style>
+        .progress-wrap {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 0 16px 16px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .progress-top .progress-title {
+            color: var(--text);
+        }
+        .progress-top .progress-text {
+            color: #8E44AD;
+        }
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(142,68,173,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8E44AD, #3498DB);
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
+        }
+        #progress-complete {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #FDCB6E;
+            background: rgba(253,203,110,0.12);
+            padding: 6px;
+            border-radius: 8px;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .char-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 20px 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .char-card:active {
+            transform: scale(0.96);
+        }
+        .char-card.char-locked {
+            background: #f0f0f0;
+            color: #aaa;
+        }
+        .char-card.char-locked .char-emoji {
+            filter: grayscale(1) blur(2px);
+            opacity: 0.5;
+        }
+        .char-card.char-unlocked {
+            background: linear-gradient(135deg, #fff, #f5f0ff);
+            border: 2px solid rgba(142,68,173,0.15);
+        }
+        .char-emoji {
+            font-size: 2.6rem;
+            margin-bottom: 6px;
+            line-height: 1;
+        }
+        .char-name {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+        .char-locked .char-name {
+            color: #bbb;
+        }
+        .char-short {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* 모달 */
+        .char-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            padding: 20px;
+        }
+        .char-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .char-modal-inner {
+            background: #fff;
+            border-radius: 24px;
+            padding: 30px 24px 24px;
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+        .char-modal.show .char-modal-inner {
+            transform: translateY(0);
+        }
+        #modal-emoji {
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        #modal-name {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #8E44AD, #3498DB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #modal-detail {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 20px;
+            word-break: keep-all;
+        }
+        .modal-close {
+            background: linear-gradient(135deg, #8E44AD, #3498DB);
+            color: #fff;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .char-toast {
+            position: fixed;
+            top: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1100;
+        }
+        .char-toast.show { opacity: 1; }
+
+        .cta-box {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin: 16px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border-left: 4px solid #8E44AD;
+        }
+        .cta-box .cta-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .cta-box .cta-desc {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        .cta-go {
+            display: inline-block;
+            padding: 8px 18px;
+            background: linear-gradient(135deg, #8E44AD, #3498DB);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>📖 성경 인물 도감</h1>
+</header>
+
+<div class="content-area">
+    <div class="progress-wrap">
+        <div class="progress-top">
+            <span class="progress-title">수집 진행도</span>
+            <span class="progress-text" id="progress-text">0 / 8 수집</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-bar" style="width:0%"></div>
+        </div>
+        <div id="progress-complete">🏆 도감 완성! 모든 인물을 만났어요!</div>
+    </div>
+
+    <div class="character-grid" id="character-grid"></div>
+
+    <div class="cta-box">
+        <div class="cta-title">📖 아직 만나지 못한 인물이 있나요?</div>
+        <div class="cta-desc">성경 인물 퀴즈에서 정답을 맞히면 인물이 도감에 들어와요!</div>
+        <a href="../games/quiz/index.html" class="cta-go">🎯 성경 퀴즈 풀러 가기</a>
+    </div>
+</div>
+
+<div class="char-modal" id="char-modal" onclick="if(event.target===this)closeCharacterDetail()">
+    <div class="char-modal-inner">
+        <div id="modal-emoji">❔</div>
+        <div id="modal-name">인물</div>
+        <div id="modal-detail">설명</div>
+        <button class="modal-close" onclick="closeCharacterDetail()">닫기</button>
+    </div>
+</div>
+
+<script src="../shared/components.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="character.js"></script>
+<script>
+renderCharacters();
+</script>
+</body>
+</html>

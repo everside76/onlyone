@@ -115,12 +115,14 @@ function update() {
     if (head.x === food.x && head.y === food.y) {
         score += 10;
         document.getElementById('score').textContent = score;
+        if (typeof SFX !== 'undefined') SFX.score();
         speed = Math.max(80, 150 - Math.floor(score / 50) * 10);
         spawnFood();
-        // 100점 달성 시 팝콘 쿠폰 해금
+        // 80점 달성 시 팝콘 쿠폰 해금
         if (score >= 80 && !localStorage.getItem('onlyone_coupon_팝콘')) {
             localStorage.setItem('onlyone_coupon_팝콘', 'unlocked');
             showCouponUnlock('팝콘');
+            if (typeof celebrate === 'function') celebrate();
         }
     } else {
         snake.pop();
@@ -142,6 +144,7 @@ function gameLoop(time) {
 function endGame() {
     gameRunning = false;
     cancelAnimationFrame(animFrame);
+    if (typeof SFX !== 'undefined') SFX.fail();
     const hi = parseInt(localStorage.getItem('onlyone_snake_high') || '0');
     if (score > hi) localStorage.setItem('onlyone_snake_high', score);
     document.getElementById('final-score').textContent = score;

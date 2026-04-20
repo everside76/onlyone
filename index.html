@@ -153,6 +153,76 @@
         .icon-games { background: linear-gradient(135deg, #00B894, #00CEC9); }
         .icon-coupons { background: linear-gradient(135deg, #F39C12, #FDCB6E); }
         .icon-bible { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .icon-characters { background: linear-gradient(135deg, #8E44AD, #3498DB); }
+
+        /* D-DAY 배너 */
+        .dday-banner {
+            margin: 0 16px 8px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(135deg, #6C5CE7 0%, #E84393 60%, #FF6B6B 100%);
+            color: #fff;
+            border-radius: 20px;
+            padding: 18px 22px;
+            box-shadow: 0 8px 24px rgba(108,92,231,0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out 0.15s both;
+        }
+        .dday-banner::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .dday-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .dday-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+        .dday-count {
+            font-size: 2.6rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin: 4px 0 2px;
+            position: relative;
+            z-index: 1;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .dday-count .dday-unit {
+            font-size: 1.2rem;
+            margin-left: 4px;
+            opacity: 0.9;
+        }
+        .dday-date {
+            font-size: 0.78rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
 
         .service-info {
             flex: 1;
@@ -297,6 +367,12 @@ function openExternalBrowser() {
         </div>
     </div>
 
+    <div class="dday-banner" id="dday-banner">
+        <div class="dday-label">🎉 뭉게뭉게 마켓까지</div>
+        <div class="dday-count"><span id="dday-num">-</span><span class="dday-unit" id="dday-unit">일</span></div>
+        <div class="dday-date">2026년 5월 3일 (주일)</div>
+    </div>
+
     <div class="service-cards">
         <a href="events/index.html" class="service-card">
             <div class="service-icon icon-events">🎪</div>
@@ -341,6 +417,17 @@ function openExternalBrowser() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
         </a>
+
+        <a href="characters/index.html" class="service-card">
+            <div class="service-icon icon-characters">📖</div>
+            <div class="service-info">
+                <div class="service-name">성경 인물 도감</div>
+                <div class="service-desc">성경 퀴즈로 인물을 만나보세요!</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
     </div>
 
     <div class="notice-section" style="animation-delay:0.75s;">
@@ -366,13 +453,52 @@ function openExternalBrowser() {
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             모바일에 최적화된 사이트입니다
         </div>
-        <button onclick="if(confirm('게임 기록과 쿠폰 해금 상태가 모두 초기화됩니다. 계속하시겠습니까?')){localStorage.clear();location.reload();}" style="background:none;border:1px solid #ddd;color:#bbb;font-size:0.65rem;padding:4px 12px;border-radius:6px;cursor:pointer;margin-bottom:8px;">캐시 지우고 초기화</button>
+        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:8px;">
+            <button id="sound-toggle-btn" onclick="toggleSoundUI()" style="background:none;border:1px solid #ddd;color:#888;font-size:0.65rem;padding:4px 12px;border-radius:6px;cursor:pointer;">🔊 효과음 ON</button>
+            <button onclick="if(confirm('게임 기록과 쿠폰 해금 상태가 모두 초기화됩니다. 계속하시겠습니까?')){localStorage.clear();location.reload();}" style="background:none;border:1px solid #ddd;color:#bbb;font-size:0.65rem;padding:4px 12px;border-radius:6px;cursor:pointer;">캐시 지우고 초기화</button>
+        </div>
         <div>&copy; 2026 OnlyOne. All rights reserved.</div>
     </div>
 </div>
 
 <script src="shared/components.js"></script>
+<script src="shared/effects.js"></script>
 <script>
+// D-DAY 카운트다운
+(function renderDDay() {
+    const target = new Date('2026-05-03T00:00:00+09:00');
+    const now = new Date();
+    const diffMs = target - now;
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    const numEl = document.getElementById('dday-num');
+    const unitEl = document.getElementById('dday-unit');
+    const banner = document.getElementById('dday-banner');
+    if (diffDays > 0) {
+        numEl.textContent = 'D-' + diffDays;
+        unitEl.textContent = '';
+    } else if (diffDays === 0) {
+        numEl.textContent = '🎉 오늘!';
+        unitEl.textContent = '';
+        banner.querySelector('.dday-label').textContent = '뭉게뭉게 마켓이 열렸어요';
+    } else {
+        numEl.textContent = '🎊 성료';
+        unitEl.textContent = '';
+        banner.querySelector('.dday-label').textContent = '함께해주셔서 감사합니다';
+    }
+})();
+
+// 사운드 토글 UI
+function updateSoundButton() {
+    const btn = document.getElementById('sound-toggle-btn');
+    if (!btn) return;
+    btn.textContent = (typeof isSoundOn === 'function' && isSoundOn()) ? '🔊 효과음 ON' : '🔇 효과음 OFF';
+}
+function toggleSoundUI() {
+    if (typeof toggleSound === 'function') toggleSound();
+    updateSoundButton();
+}
+updateSoundButton();
+
 // 홈 화면 추가 (PWA Install)
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {

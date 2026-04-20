@@ -105,6 +105,7 @@ function tapHole(index) {
         // 두더지 잡기 성공
         caught++;
         score += 10;
+        if (typeof SFX !== 'undefined') SFX.click();
         hole.classList.remove('active');
         hole.classList.add('hit');
         hole.textContent = '✅';
@@ -146,7 +147,12 @@ function endGame() {
         if (wins >= 1 && !localStorage.getItem('onlyone_coupon_오뎅탕')) {
             localStorage.setItem('onlyone_coupon_오뎅탕', 'unlocked');
             showCouponUnlock('오뎅탕');
+            if (typeof celebrate === 'function') celebrate();
+        } else if (typeof SFX !== 'undefined') {
+            SFX.victory();
         }
+    } else if (typeof SFX !== 'undefined') {
+        SFX.fail();
     }
 
     const wins = parseInt(localStorage.getItem('onlyone_memory_wins') || '0');

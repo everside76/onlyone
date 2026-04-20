@@ -91,10 +91,14 @@ function clearLines() {
         lines += cleared;
         level = Math.floor(lines / 10) + 1;
         document.getElementById('score').textContent = score;
+        if (typeof SFX !== 'undefined') {
+            cleared >= 2 ? SFX.levelUp() : SFX.score();
+        }
         // 10줄 달성 시 짜장밥 쿠폰 해금
         if (lines >= 10 && !localStorage.getItem('onlyone_coupon_짜장밥')) {
             localStorage.setItem('onlyone_coupon_짜장밥', 'unlocked');
             showCouponUnlock('짜장밥');
+            if (typeof celebrate === 'function') celebrate();
         }
     }
 }
@@ -200,6 +204,7 @@ function update(time) {
 function endGame() {
     gameOver = true;
     cancelAnimationFrame(animFrame);
+    if (typeof SFX !== 'undefined') SFX.fail();
     const hi = parseInt(localStorage.getItem('onlyone_tetris_high') || '0');
     if (score > hi) localStorage.setItem('onlyone_tetris_high', score);
     document.getElementById('final-score').textContent = score;
