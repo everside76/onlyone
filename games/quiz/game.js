@@ -178,19 +178,13 @@ function checkFullCollectionUnlock() {
 }
 
 function showCouponUnlock(name) {
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:#fff;padding:20px 32px;border-radius:16px;z-index:999;text-align:center;font-size:1.1rem;font-weight:700;animation:fadeIn 0.3s ease-out;box-shadow:0 8px 32px rgba(0,0,0,0.5)';
-    toast.innerHTML = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🌶️ ' + name + ' 교환권</span>';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
+    const html = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🌶️ ' + name + ' 교환권</span>';
+    if (typeof showCenterToast === 'function') showCenterToast(html);
 }
 
 function showCharacterUnlock(name) {
     const emoji = CHAR_EMOJI[name] || '⭐';
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;top:18%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#8E44AD,#3498DB);color:#fff;padding:16px 28px;border-radius:16px;z-index:999;text-align:center;font-size:0.95rem;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,0.5);animation:fadeIn 0.3s ease-out';
-    toast.innerHTML = '📖 도감 해금!<br><span style="font-size:1.3rem">' + emoji + ' ' + name + '</span>';
-    document.body.appendChild(toast);
+    const html = '📖 도감 해금!<br><span style="font-size:1.3rem">' + emoji + ' ' + name + '</span>';
+    if (typeof showCenterToast === 'function') showCenterToast(html, 2000, 18);
     if (typeof SFX !== 'undefined') SFX.levelUp();
-    setTimeout(() => toast.remove(), 2000);
 }

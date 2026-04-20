@@ -115,3 +115,23 @@ function celebrate() {
     SFX.victory();
     showConfetti();
 }
+
+/* ===== 중앙 정렬 토스트 (해금 알림) ===== */
+function showCenterToast(innerHtml, duration = 2500, topPercent = 50) {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9998;';
+    if (topPercent !== 50) {
+        wrap.style.alignItems = 'flex-start';
+        wrap.style.paddingTop = topPercent + 'vh';
+    }
+    const toast = document.createElement('div');
+    toast.style.cssText = 'pointer-events:auto;background:rgba(0,0,0,0.9);color:#fff;padding:20px 32px;border-radius:16px;text-align:center;font-size:1.1rem;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transform:scale(0.9);transition:opacity 0.25s,transform 0.25s;max-width:90vw;';
+    toast.innerHTML = innerHtml;
+    wrap.appendChild(toast);
+    document.body.appendChild(wrap);
+    requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'scale(1)';
+    });
+    setTimeout(() => wrap.remove(), duration);
+}

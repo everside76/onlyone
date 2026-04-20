@@ -220,11 +220,8 @@ function endGame() {
 }
 
 function showCouponUnlock(name) {
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:#fff;padding:20px 32px;border-radius:16px;z-index:999;text-align:center;font-size:1.1rem;font-weight:700;animation:fadeIn 0.3s ease-out;box-shadow:0 8px 32px rgba(0,0,0,0.5)';
-    toast.innerHTML = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🍚 ' + name + ' 교환권</span>';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
+    const html = '🎉 쿠폰 해금!<br><span style="font-size:1.4rem">🍚 ' + name + ' 교환권</span>';
+    if (typeof showCenterToast === 'function') showCenterToast(html);
 }
 
 function togglePause() {
