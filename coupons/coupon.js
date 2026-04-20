@@ -4,7 +4,7 @@ const COUPONS = [
     { id: 1, name: '짜장밥',  emoji: '🍚', label: '교환권', colors: ['#2C3E50', '#3498DB'], key: 'onlyone_coupon_짜장밥', game: '블록 쌓기 10줄 완성' },
     { id: 2, name: '오뎅탕',  emoji: '🍢', label: '교환권', colors: ['#E74C3C', '#F39C12'], key: 'onlyone_coupon_오뎅탕', game: '두더지 잡기 1회 클리어' },
     { id: 3, name: '팝콘',    emoji: '🍿', label: '교환권', colors: ['#8E44AD', '#E84393'], key: 'onlyone_coupon_팝콘', game: '애벌레 게임 80점 달성' },
-    { id: 4, name: '떡볶이',  emoji: '🌶️', label: '교환권', colors: ['#D63031', '#E17055'], key: 'onlyone_coupon_떡볶이', game: '성경 인물 도감 7명 모두 수집' }
+    { id: 4, name: '떡볶이',  emoji: '🌶️', label: '교환권', colors: ['#D63031', '#E17055'], key: 'onlyone_coupon_떡볶이', game: '도감 7명 모두 수집하면 떡볶이 쿠폰을 받는다' }
 ];
 
 /**
