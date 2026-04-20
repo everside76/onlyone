@@ -1,6 +1,8 @@
 /* ===== 블록 쌓기 (테트리스) ===== */
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
+const nextCanvas = document.getElementById('next-canvas');
+const nextCtx = nextCanvas.getContext('2d');
 
 const COLS = 10;
 const ROWS = 20;
@@ -12,6 +14,7 @@ let paused = false;
 let gameOver = false;
 let board = [];
 let current = null;
+let nextShape = null;
 let dropTimer = 0;
 let lastTime = 0;
 let animFrame;
@@ -41,13 +44,20 @@ function createBoard() {
     board = Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
 }
 
-function newPiece() {
+function randomShape() {
     const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+    return shape.map(r => [...r]);
+}
+
+function newPiece() {
+    const shape = nextShape || randomShape();
+    nextShape = randomShape();
     current = {
-        shape: shape.map(r => [...r]),
+        shape: shape,
         x: Math.floor((COLS - shape[0].length) / 2),
         y: 0
     };
+    drawNext();
     if (collides(current.shape, current.x, current.y)) {
         endGame();
     }
@@ -90,7 +100,7 @@ function clearLines() {
         score += (pts[cleared] || 800) * level;
         lines += cleared;
         level = Math.floor(lines / 10) + 1;
-        document.getElementById('score').textContent = score;
+        document.getElementById('lines-count').textContent = lines;
         if (typeof SFX !== 'undefined') {
             cleared >= 2 ? SFX.levelUp() : SFX.score();
         }
@@ -136,7 +146,6 @@ function hardDrop() {
         current.y++;
         score += 2;
     }
-    document.getElementById('score').textContent = score;
     merge();
     clearLines();
     newPiece();
@@ -184,6 +193,30 @@ function draw() {
     }
 }
 
+function drawNext() {
+    if (!nextShape) return;
+    const W = nextCanvas.width;
+    const H = nextCanvas.height;
+    nextCtx.clearRect(0, 0, W, H);
+    const rows = nextShape.length;
+    const cols = nextShape[0].length;
+    const cell = Math.floor(Math.min(W / (cols + 1), H / (rows + 1)));
+    const offsetX = (W - cols * cell) / 2;
+    const offsetY = (H - rows * cell) / 2;
+    nextShape.forEach((row, r) => {
+        row.forEach((val, c) => {
+            if (val) {
+                const x = offsetX + c * cell;
+                const y = offsetY + r * cell;
+                nextCtx.fillStyle = COLORS[val];
+                nextCtx.fillRect(x + 1, y + 1, cell - 2, cell - 2);
+                nextCtx.fillStyle = 'rgba(255,255,255,0.2)';
+                nextCtx.fillRect(x + 1, y + 1, cell - 2, 2);
+            }
+        });
+    });
+}
+
 function update(time) {
     if (gameOver) return;
     animFrame = requestAnimationFrame(update);
@@ -206,9 +239,9 @@ function endGame() {
     cancelAnimationFrame(animFrame);
     if (typeof SFX !== 'undefined') SFX.fail();
     const hi = parseInt(localStorage.getItem('onlyone_tetris_high') || '0');
-    if (score > hi) localStorage.setItem('onlyone_tetris_high', score);
-    document.getElementById('final-score').textContent = score;
-    document.getElementById('high-score-text').textContent = '최고 점수: ' + Math.max(score, hi);
+    if (lines > hi) localStorage.setItem('onlyone_tetris_high', lines);
+    document.getElementById('final-score').textContent = lines + '줄';
+    document.getElementById('high-score-text').textContent = '최고 기록: ' + Math.max(lines, hi) + '줄';
     // 쿠폰 해금 여부 표시
     const couponArea = document.getElementById('coupon-reward');
     if (localStorage.getItem('onlyone_coupon_짜장밥')) {
@@ -233,7 +266,8 @@ function startGame() {
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('game-over').classList.remove('active');
     score = 0; level = 1; lines = 0; dropTimer = 0; gameOver = false; paused = false;
-    document.getElementById('score').textContent = '0';
+    nextShape = null;
+    document.getElementById('lines-count').textContent = '0';
     document.getElementById('pause-btn').textContent = '일시정지';
     resize();
     createBoard();
