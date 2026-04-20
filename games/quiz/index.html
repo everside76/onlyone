@@ -121,18 +121,10 @@
 </div>
 
 <div class="game-start-overlay" id="start-screen">
-    <h2>❓ 퀴즈 게임</h2>
-    <p>모드를 선택해 도전하세요!</p>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;width:100%;max-width:320px;">
-        <button class="start-btn" style="background:linear-gradient(135deg,#FF6B6B,#FFA502);" onclick="startGame('event')">
-            🎪 행사 퀴즈<br>
-            <span style="font-size:0.72rem;font-weight:500;opacity:0.9;">5개 정답 → 🌶️ 떡볶이 쿠폰!</span>
-        </button>
-        <button class="start-btn" style="background:linear-gradient(135deg,#8E44AD,#3498DB);" onclick="startGame('bible')">
-            📖 성경 인물 퀴즈<br>
-            <span style="font-size:0.72rem;font-weight:500;opacity:0.9;">정답 시 인물 도감 해금!</span>
-        </button>
-    </div>
+    <h2>📖 성경 인물 퀴즈</h2>
+    <p>정답을 맞히면 인물이<br>도감에 들어와요!</p>
+    <p style="margin-top:12px;padding:8px 20px;background:rgba(255,255,255,0.1);border-radius:10px;font-size:0.82rem;color:#FDCB6E;font-weight:700;">🎟️ 도감 7명 모두 수집 → 🌶️ 떡볶이 쿠폰 해금!</p>
+    <button class="start-btn" onclick="startGame()">게임 시작</button>
 </div>
 
 <div class="game-overlay" id="game-over">

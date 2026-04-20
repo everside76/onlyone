@@ -18,12 +18,21 @@ function isCharUnlocked(id) {
 function checkJesusUnlock() {
     const others = ['노아','모세','다윗','다니엘','요나','에스더','룻'];
     const allDone = others.every(n => isCharUnlocked(n));
-    if (allDone && !isCharUnlocked('예수')) {
+    if (!allDone) return false;
+
+    let justUnlocked = false;
+    if (!isCharUnlocked('예수')) {
         localStorage.setItem('onlyone_char_예수', 'unlocked');
-        if (typeof celebrate === 'function') celebrate();
-        return true;
+        justUnlocked = true;
     }
-    return false;
+    // 도감 완성 시 떡볶이 쿠폰 자동 해금
+    if (!localStorage.getItem('onlyone_coupon_떡볶이')) {
+        localStorage.setItem('onlyone_coupon_떡볶이', 'unlocked');
+        showToast('🎉 떡볶이 쿠폰이 해금되었습니다!');
+        justUnlocked = true;
+    }
+    if (justUnlocked && typeof celebrate === 'function') celebrate();
+    return justUnlocked;
 }
 
 function renderCharacters() {

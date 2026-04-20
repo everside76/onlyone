@@ -1,29 +1,6 @@
-/* ===== 퀴즈 게임 (행사 퀴즈 + 성경 인물 퀴즈) ===== */
+/* ===== 성경 인물 퀴즈 ===== */
 
-const ALL_QUESTIONS = [
-    { q: '2026 Revival Only One 소풍은 어느 교회 행사인가요?', o: ['사랑교회', '혜림교회', '은혜교회', '소망교회'], a: 1 },
-    { q: '뭉게뭉게챌린지는 몇 월 며칠에 열리나요?', o: ['5월 1일', '5월 3일', '5월 9일', '5월 10일'], a: 1 },
-    { q: '뭉게뭉게챌린지에 초청된 바리톤 연주자의 이름은?', o: ['유영광', '김영광', '이영광', '박영광'], a: 0 },
-    { q: '봄음악제 바베큐파티는 무슨 요일에 열리나요?', o: ['주일', '토요일', '금요일', '수요일'], a: 1 },
-    { q: '봄음악제 바베큐파티의 시작 시간은?', o: ['오전 10시', '오후 2시', '오후 4시', '오후 6시'], a: 2 },
-    { q: '은혜가 있는 소풍은 며칠에 열리나요?', o: ['5/3, 9', '5/9, 10', '5/10, 17', '5/17, 24'], a: 2 },
-    { q: '이번 소풍의 슬로건은 무엇인가요?', o: ['함께 걷는 여정, 한 사람을 향한 초대', '사랑으로 하나 되는 날', '은혜의 봄날', '복음의 기쁨'], a: 0 },
-    { q: '"가족 소풍"의 주제는 무엇인가요?', o: ['교제가 있는 소풍', '사랑이 있는 소풍', '은혜가 있는 소풍', '기쁨이 있는 소풍'], a: 1 },
-    { q: '"이웃 소풍"의 주제는 무엇인가요?', o: ['사랑이 있는 소풍', '은혜가 있는 소풍', '교제가 있는 소풍', '평화가 있는 소풍'], a: 2 },
-    { q: '"영혼 소풍"의 주제는 무엇인가요?', o: ['사랑이 있는 소풍', '교제가 있는 소풍', '기쁨이 있는 소풍', '은혜가 있는 소풍'], a: 3 },
-    { q: '뭉게뭉게 마켓에서 쿠폰을 사용할 수 있는 날은?', o: ['5월 9일', '5월 10일', '5월 3일', '5월 17일'], a: 2 },
-    { q: '봄음악제에서 함께 하는 활동이 아닌 것은?', o: ['음악 감상', '바베큐', '캠프파이어', '교제'], a: 2 },
-    { q: '은혜가 있는 소풍에서 초대하는 것은?', o: ['음악과 춤', '예배와 복음', '게임과 놀이', '영화와 간식'], a: 1 },
-    { q: '이번 행사의 연도 슬로건에 포함된 단어는?', o: ['Revival', 'Festival', 'Celebration', 'Blessing'], a: 0 },
-    { q: '소풍 행사는 총 몇 가지로 나뉘나요?', o: ['2가지', '3가지', '4가지', '5가지'], a: 1 },
-    { q: '5월 3일(주일) 행사의 이름은?', o: ['봄음악제', '은혜가 있는 소풍', '뭉게뭉게챌린지', '바베큐파티'], a: 2 },
-    { q: '5월 9일(토) 행사에 포함되지 않는 것은?', o: ['봄음악제', '바베큐파티', '초청연주', '교제'], a: 2 },
-    { q: '소풍 행사에서 "가족" 행사의 날짜는?', o: ['5월 3일', '5월 9일', '5월 10일', '5월 17일'], a: 0 },
-    { q: '소풍 행사에서 "이웃" 행사의 날짜는?', o: ['5월 3일', '5월 9일', '5월 10일', '5월 17일'], a: 1 },
-    { q: '이번 소풍의 계절은?', o: ['여름', '가을', '봄', '겨울'], a: 2 }
-];
-
-// 성경 인물 문제 (정답 시 해당 인물 도감 해금)
+// 정답 시 해당 인물 도감 해금
 const BIBLE_QUESTIONS = [
     { q: '홍수 심판 때 하나님 말씀을 듣고 방주를 만든 사람은?', o: ['아브라함', '노아', '야곱', '솔로몬'], a: 1, char: '노아' },
     { q: '비가 얼마 동안 내렸나요? (노아의 방주)', o: ['7일', '30일', '40일', '100일'], a: 2, char: '노아' },
@@ -45,12 +22,12 @@ const CHAR_EMOJI = {
     '노아': '🚢', '모세': '🌊', '다윗': '🎯', '다니엘': '🦁',
     '요나': '🐋', '에스더': '👑', '룻': '🌾', '예수': '✝️'
 };
+const REQUIRED_CHARS = ['노아','모세','다윗','다니엘','요나','에스더','룻'];
 
 let questions = [];
 let currentIndex = 0;
 let correctCount = 0;
 let answered = false;
-let currentMode = 'event'; // 'event' or 'bible'
 let unlockedChars = [];
 
 function shuffle(arr) {
@@ -62,13 +39,11 @@ function shuffle(arr) {
     return a;
 }
 
-function startGame(mode) {
-    currentMode = mode || 'event';
+function startGame() {
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('game-over').classList.remove('active');
-    const pool = currentMode === 'bible' ? BIBLE_QUESTIONS : ALL_QUESTIONS;
-    const takeCount = Math.min(10, pool.length);
-    questions = shuffle(pool).slice(0, takeCount);
+    const takeCount = Math.min(10, BIBLE_QUESTIONS.length);
+    questions = shuffle(BIBLE_QUESTIONS).slice(0, takeCount);
     currentIndex = 0;
     correctCount = 0;
     answered = false;
@@ -118,8 +93,7 @@ function selectAnswer(idx) {
         document.getElementById('score').textContent = correctCount;
         if (typeof SFX !== 'undefined') SFX.correct();
 
-        // 성경 모드: 정답 시 캐릭터 해금
-        if (currentMode === 'bible' && q.char) {
+        if (q.char) {
             const key = 'onlyone_char_' + q.char;
             if (!localStorage.getItem(key)) {
                 localStorage.setItem(key, 'unlocked');
@@ -145,54 +119,62 @@ function selectAnswer(idx) {
 }
 
 function endGame() {
-    if (currentMode === 'event') {
-        const hi = parseInt(localStorage.getItem('onlyone_quiz_high') || '0');
-        if (correctCount > hi) localStorage.setItem('onlyone_quiz_high', correctCount);
+    // 최고 기록 저장
+    const hi = parseInt(localStorage.getItem('onlyone_quiz_high') || '0');
+    if (correctCount > hi) localStorage.setItem('onlyone_quiz_high', correctCount);
 
-        if (correctCount >= 5 && !localStorage.getItem('onlyone_coupon_떡볶이')) {
-            localStorage.setItem('onlyone_coupon_떡볶이', 'unlocked');
-            showCouponUnlock('떡볶이');
-            if (typeof celebrate === 'function') celebrate();
-        } else if (correctCount >= 5 && typeof SFX !== 'undefined') {
-            SFX.victory();
-        }
-    } else {
-        // 성경 모드 승리 판정: 정답 시 해금 처리됨
-        checkAllBibleUnlocked();
-        if (correctCount >= 5 && typeof celebrate === 'function') celebrate();
-        else if (correctCount >= 3 && typeof SFX !== 'undefined') SFX.victory();
+    // 7명 전원 수집 체크 → 떡볶이 쿠폰 + 예수님 해금
+    const fullComplete = checkFullCollectionUnlock();
+
+    if (fullComplete && typeof celebrate === 'function') {
+        celebrate();
+    } else if (correctCount >= 5 && typeof SFX !== 'undefined') {
+        SFX.victory();
     }
 
     document.getElementById('final-score').textContent = correctCount + ' / ' + questions.length;
     document.getElementById('result-text').textContent = questions.length + '문제 중 ' + correctCount + '개 정답';
 
     const couponArea = document.getElementById('coupon-reward');
-    if (currentMode === 'event') {
-        if (localStorage.getItem('onlyone_coupon_떡볶이')) {
-            couponArea.innerHTML = '<button class="btn-coupon" onclick="location.href=\'../../coupons/index.html\'">🌶️ 떡볶이 쿠폰 받기</button>';
-        } else {
-            couponArea.innerHTML = '<p style="color:#888;font-size:0.8rem;">🔒 5개 이상 정답 시 떡볶이 쿠폰 해금! (현재 ' + correctCount + '/5)</p>';
-        }
-    } else {
-        const unlockedNow = unlockedChars.length;
-        const totalUnlocked = ['노아','모세','다윗','다니엘','요나','에스더','룻']
-            .filter(n => localStorage.getItem('onlyone_char_' + n)).length;
-        const msg = unlockedNow > 0
-            ? `✨ 이번에 ${unlockedNow}명 해금! (도감 ${totalUnlocked}/7)`
-            : `도감에서 ${totalUnlocked}/7명 수집 중`;
-        couponArea.innerHTML = `<p style="color:#8E44AD;font-size:0.85rem;font-weight:700;margin-bottom:10px;">${msg}</p>
-            <button class="btn-coupon" onclick="location.href='../../characters/index.html'">📖 성경 인물 도감 보기</button>`;
+    const totalUnlocked = REQUIRED_CHARS.filter(n => localStorage.getItem('onlyone_char_' + n)).length;
+    const tteokbokkiUnlocked = !!localStorage.getItem('onlyone_coupon_떡볶이');
+
+    let html = '';
+    if (unlockedChars.length > 0) {
+        html += `<p style="color:#8E44AD;font-size:0.9rem;font-weight:800;margin-bottom:8px;">✨ 이번에 ${unlockedChars.length}명 새로 만났어요!</p>`;
     }
+    html += `<p style="color:#666;font-size:0.82rem;margin-bottom:12px;">도감 수집: ${totalUnlocked} / 7</p>`;
+    if (tteokbokkiUnlocked) {
+        html += `<button class="btn-coupon" onclick="location.href='../../coupons/index.html'" style="margin-bottom:8px;">🌶️ 떡볶이 쿠폰 받기</button>`;
+    } else {
+        html += `<p style="color:#888;font-size:0.78rem;margin-bottom:10px;">🔒 도감 7명 모두 수집 시 🌶️ 떡볶이 쿠폰 해금!</p>`;
+    }
+    html += `<button class="btn-coupon" onclick="location.href='../../characters/index.html'" style="background:linear-gradient(135deg,#8E44AD,#3498DB);">📖 성경 인물 도감 보기</button>`;
+    couponArea.innerHTML = html;
 
     document.getElementById('game-over').classList.add('active');
 }
 
-function checkAllBibleUnlocked() {
-    const required = ['노아','모세','다윗','다니엘','요나','에스더','룻'];
-    const allDone = required.every(n => localStorage.getItem('onlyone_char_' + n));
-    if (allDone && !localStorage.getItem('onlyone_char_예수')) {
+function checkFullCollectionUnlock() {
+    const allDone = REQUIRED_CHARS.every(n => localStorage.getItem('onlyone_char_' + n));
+    if (!allDone) return false;
+
+    let newUnlock = false;
+
+    // 예수님 도감 자동 해금
+    if (!localStorage.getItem('onlyone_char_예수')) {
         localStorage.setItem('onlyone_char_예수', 'unlocked');
+        newUnlock = true;
     }
+
+    // 떡볶이 쿠폰 해금
+    if (!localStorage.getItem('onlyone_coupon_떡볶이')) {
+        localStorage.setItem('onlyone_coupon_떡볶이', 'unlocked');
+        showCouponUnlock('떡볶이');
+        newUnlock = true;
+    }
+
+    return newUnlock;
 }
 
 function showCouponUnlock(name) {
