@@ -154,6 +154,14 @@
         .icon-coupons { background: linear-gradient(135deg, #F39C12, #FDCB6E); }
         .icon-bible { background: linear-gradient(135deg, #667eea, #764ba2); }
         .icon-characters { background: linear-gradient(135deg, #8E44AD, #3498DB); }
+        .icon-map { background: linear-gradient(135deg, #03C75A, #00B894); }
+
+        /* 길찾기 배너 */
+        .map-wrapper {
+            padding: 0 16px 8px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
 
         /* D-DAY 배너 */
         .dday-wrapper {
@@ -394,6 +402,19 @@ function openExternalBrowser() {
                 <div class="dday-date">2026년 5월 3일 (주일)</div>
             </div>
         </div>
+    </div>
+
+    <div class="map-wrapper">
+        <a href="https://map.naver.com/p/entry/place/12205375" target="_blank" rel="noopener" class="service-card map-card">
+            <div class="service-icon icon-map">📍</div>
+            <div class="service-info">
+                <div class="service-name">혜림교회 길찾기</div>
+                <div class="service-desc">네이버지도에서 위치를 확인하세요</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
     </div>
 
     <div class="service-cards">
