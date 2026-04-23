@@ -187,3 +187,50 @@
     align-items: center;
     gap: 6px;
 }
+
+/* Premium refresh */
+.event-card,
+.event-section,
+.poster-card,
+.video-card {
+    border-radius: 24px;
+    background: rgba(255,255,255,0.88);
+}
+
+.event-thumb,
+.event-section-img {
+    background: #EFE5D5;
+}
+
+.event-body,
+.event-section-body,
+.video-card-body {
+    padding: 18px 20px 20px;
+}
+
+.event-title,
+.event-section-title,
+.video-card-title {
+    color: var(--text);
+    letter-spacing: 0;
+}
+
+.event-summary,
+.event-section-desc,
+.video-card-desc,
+.church-info {
+    color: var(--text-light);
+}
+
+.event-meta {
+    color: #80796F;
+}
+
+.event-section-tag,
+.event-hero-badge {
+    border-radius: 999px;
+}
+
+.gallery-scroll img {
+    border-radius: 20px;
+}

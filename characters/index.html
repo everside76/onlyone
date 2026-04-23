@@ -226,6 +226,66 @@
             font-weight: 700;
             text-decoration: none;
         }
+
+        /* Premium refresh */
+        .progress-wrap,
+        .char-card,
+        .cta-box {
+            border: 1px solid rgba(48,43,36,0.08);
+            background: rgba(255,255,255,0.88);
+        }
+        .progress-wrap {
+            margin-top: 18px;
+            border-radius: 22px;
+        }
+        .progress-top .progress-text {
+            color: var(--primary);
+        }
+        .progress-track {
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(91,85,217,0.1);
+        }
+        .progress-fill {
+            border-radius: 999px;
+            background: var(--gradient-main);
+        }
+        .character-grid {
+            gap: 14px;
+        }
+        .char-card {
+            border-radius: 22px;
+            padding: 22px 12px;
+        }
+        .char-card.char-locked {
+            background: rgba(255,255,255,0.58);
+        }
+        .char-card.char-unlocked {
+            background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(246,244,255,0.86));
+            border: 1px solid rgba(91,85,217,0.16);
+        }
+        .char-modal {
+            background: rgba(35,34,31,0.56);
+            backdrop-filter: blur(10px);
+        }
+        .char-modal-inner {
+            border-radius: 28px;
+            border: 1px solid rgba(48,43,36,0.08);
+        }
+        #modal-name {
+            color: var(--text);
+            background: none;
+            -webkit-text-fill-color: currentColor;
+        }
+        .modal-close,
+        .cta-go {
+            border-radius: 999px;
+            background: var(--text);
+        }
+        .cta-box {
+            border-left: 0;
+            border-radius: 22px;
+        }
     </style>
 </head>
 <body>

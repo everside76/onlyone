@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="혜림교회 Revival Only One - 행사 안내, 모바일 게임, 쿠폰">
-    <meta name="theme-color" content="#6C5CE7">
+    <meta name="theme-color" content="#FFF9EF">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="뭉게뭉게챌린지">
     <link rel="manifest" href="manifest.json">
@@ -335,6 +335,256 @@
             font-size: 0.7rem;
             color: #CCC;
             animation: fadeIn 1s ease-out 0.8s both;
+        }
+
+        /* Premium mobile pass refresh */
+        .content-area {
+            max-width: 560px;
+            padding: 0 0 18px;
+        }
+        .hero {
+            margin: 12px 12px 0;
+            padding: 34px 22px 20px;
+            text-align: left;
+            border-radius: 28px 28px 18px 18px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,248,236,0.82)),
+                radial-gradient(circle at 86% 18%, rgba(239,106,91,0.2), transparent 24%);
+            border: 1px solid rgba(48,43,36,0.08);
+            box-shadow: 0 18px 50px rgba(61,49,31,0.1);
+        }
+        .hero::before,
+        .hero::after {
+            display: none;
+        }
+        .hero > div:first-child {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            margin-bottom: 12px !important;
+            padding: 6px 10px;
+            border: 1px solid rgba(91,85,217,0.16);
+            border-radius: 999px;
+            background: rgba(91,85,217,0.08);
+            color: var(--primary) !important;
+            letter-spacing: 0.8px !important;
+        }
+        .hero > div:first-child::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(239,106,91,0.14);
+        }
+        .hero-logo {
+            margin-bottom: 8px;
+            font-size: clamp(2.34rem, 12vw, 3.7rem) !important;
+            line-height: 0.98;
+            letter-spacing: 0;
+            color: var(--text);
+            background: none;
+            -webkit-text-fill-color: currentColor;
+            animation: none;
+        }
+        .hero-sub {
+            max-width: 18rem;
+            color: var(--text-light);
+            font-size: 0.96rem;
+            line-height: 1.65;
+            font-weight: 700;
+        }
+        .hero-emojis {
+            justify-content: flex-start;
+            gap: 8px;
+            margin-top: 18px;
+        }
+        .hero-emojis span {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(48,43,36,0.08);
+            box-shadow: 0 8px 20px rgba(61,49,31,0.08);
+            animation: none;
+        }
+        .dday-wrapper,
+        .map-wrapper,
+        .service-cards,
+        .notice-section {
+            max-width: 560px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        .dday-wrapper {
+            padding-top: 12px;
+        }
+        .dday-banner {
+            min-height: 132px;
+            align-items: stretch;
+            gap: 14px;
+            border-radius: 24px;
+            padding: 18px;
+            background:
+                linear-gradient(135deg, #23221F 0%, #3B3228 58%, #6D4A36 100%);
+            box-shadow: 0 18px 42px rgba(35,34,31,0.22);
+        }
+        .dday-banner::before {
+            inset: 12px 76px 12px auto;
+            width: 1px;
+            height: auto;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.32), transparent);
+            border-radius: 0;
+        }
+        .dday-banner::after {
+            width: 128px;
+            height: 128px;
+            left: auto;
+            right: -54px;
+            bottom: -42px;
+            background: rgba(244,199,107,0.14);
+        }
+        .dday-left {
+            width: 68px;
+            height: auto;
+            min-height: 84px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: none;
+        }
+        .dday-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .dday-label {
+            font-size: 0.78rem;
+            letter-spacing: 0;
+        }
+        .dday-count {
+            font-size: clamp(1.55rem, 7vw, 2.2rem);
+            animation: none;
+        }
+        .dday-date {
+            margin-top: 4px;
+            font-size: 0.78rem;
+        }
+        .map-wrapper {
+            padding-top: 4px;
+        }
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            padding-top: 12px;
+        }
+        .service-card {
+            min-height: 138px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            border-radius: 22px;
+            padding: 16px;
+            background: rgba(255,255,255,0.88);
+            box-shadow: var(--shadow);
+        }
+        .map-wrapper .service-card {
+            min-height: auto;
+            flex-direction: row;
+            align-items: center;
+            border-color: rgba(18,161,130,0.16);
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.94), rgba(240,250,246,0.92));
+        }
+        .service-card::before {
+            height: 100%;
+            width: 4px;
+            right: auto;
+            border-radius: 22px 0 0 22px;
+            opacity: 1;
+        }
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            font-size: 1.45rem;
+            box-shadow: 0 8px 18px rgba(61,49,31,0.12);
+        }
+        .service-info {
+            width: 100%;
+        }
+        .service-name {
+            font-size: 0.98rem;
+            line-height: 1.28;
+        }
+        .service-desc {
+            font-size: 0.74rem;
+            line-height: 1.48;
+        }
+        .service-arrow {
+            position: absolute;
+            right: 14px;
+            top: 16px;
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: var(--text);
+            background: rgba(35,34,31,0.05);
+        }
+        .map-wrapper .service-arrow {
+            position: static;
+            margin-left: auto;
+        }
+        .notice-section {
+            padding-top: 16px;
+        }
+        .notice-title {
+            margin-bottom: 12px;
+            font-size: 0.98rem;
+            color: var(--text);
+        }
+        .notice-section > div[style*="border-radius"] {
+            border-radius: 22px !important;
+            border: 1px solid rgba(48,43,36,0.08);
+            box-shadow: var(--shadow) !important;
+        }
+        .notice-item {
+            border-left: 0;
+            border-radius: 18px;
+            padding: 15px 16px;
+            background: rgba(255,255,255,0.86);
+        }
+        #notice-toggle,
+        #install-btn,
+        #sound-toggle-btn,
+        .home-footer button {
+            border-radius: 999px !important;
+        }
+        #install-btn {
+            background: var(--text) !important;
+            box-shadow: 0 10px 24px rgba(35,34,31,0.18) !important;
+        }
+        .home-footer {
+            padding: 24px 20px 10px;
+            color: #8E877D;
+        }
+
+        @media (min-width: 620px) {
+            .content-area {
+                padding-top: 12px;
+            }
+            .hero {
+                padding: 46px 34px 28px;
+            }
+            .service-cards {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
         }
     </style>
 </head>
