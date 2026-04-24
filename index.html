@@ -604,14 +604,15 @@
         .home-brand {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.78rem;
-            font-weight: 900;
+            width: 142px;
+            height: 36px;
         }
-        .home-brand-mark {
-            color: #F07465;
-            font-size: 1.2rem;
-            line-height: 1;
+        .home-brand img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: left center;
         }
         .home-alert {
             display: grid;
@@ -625,14 +626,14 @@
             box-shadow: 0 5px 14px rgba(85,72,54,0.08);
         }
         .hero {
-            min-height: 218px;
+            min-height: 228px;
             margin: 0;
-            padding: 18px 16px 86px;
+            padding: 18px 16px 72px;
             border: 0;
             border-radius: 22px 22px 16px 16px;
             background:
-                linear-gradient(90deg, rgba(248,244,236,0.98) 0%, rgba(248,244,236,0.88) 42%, rgba(248,244,236,0.12) 76%),
-                url('assets/home-hero-illustration.png') right bottom / 82% auto no-repeat,
+                linear-gradient(90deg, rgba(248,244,236,0.98) 0%, rgba(248,244,236,0.86) 39%, rgba(248,244,236,0.04) 80%),
+                url('assets/home-hero-illustration.png') right 0 top 34px / 78% auto no-repeat,
                 #F8F4EC;
             box-shadow: none;
         }
@@ -653,12 +654,17 @@
         }
         .hero-logo {
             max-width: none;
-            margin-bottom: 6px;
-            font-size: clamp(1.92rem, 8.8vw, 2.28rem) !important;
-            line-height: 1.02;
+            height: auto;
+            margin: 2px 0 7px;
+            background: none;
+            color: #20201C;
+            -webkit-text-fill-color: currentColor;
+            overflow: visible;
+            text-indent: 0;
+            font-size: clamp(2rem, 9vw, 2.42rem) !important;
+            line-height: 1;
             font-weight: 900;
-            color: #1F1E1A;
-            text-shadow: 0 2px 0 rgba(255,255,255,0.7);
+            letter-spacing: -1.4px;
             white-space: nowrap;
         }
         .hero-sub {
@@ -674,8 +680,8 @@
         .dday-wrapper {
             position: relative;
             z-index: 2;
-            margin-top: -74px;
-            padding: 0 10px 10px;
+            margin-top: -36px;
+            padding: 0 10px 6px;
         }
         .dday-banner {
             min-height: 116px;
@@ -726,7 +732,8 @@
             min-width: 0;
             display: grid;
             place-items: center;
-            padding: 16px 10px 14px;
+            align-content: center;
+            padding: 10px 10px 12px;
             text-align: center;
         }
         .dday-label {
@@ -740,10 +747,11 @@
         .dday-count {
             order: 2;
             color: #F09582;
-            font-size: clamp(3rem, 15vw, 4.35rem);
-            line-height: 0.95;
+            font-size: clamp(2.74rem, 13.5vw, 3.82rem);
+            line-height: 0.9;
             font-weight: 500;
             font-family: Georgia, 'Times New Roman', serif;
+            margin-top: 3px;
         }
         .dday-count::before {
             content: '';
@@ -760,7 +768,7 @@
         }
         .dday-date {
             order: 3;
-            margin-top: 2px;
+            margin-top: 7px;
             color: #867B70;
             font-size: 0.68rem;
         }
@@ -777,33 +785,30 @@
             font-size: 1.25rem;
         }
         .map-wrapper {
-            padding: 0 10px 8px;
+            padding: 0 10px 7px;
+            margin-top: -2px;
         }
         .map-wrapper .service-card {
             min-height: 104px;
             border-radius: 14px;
-            padding: 12px 13px;
+            padding: 13px 14px;
             background:
-                linear-gradient(90deg, rgba(255,255,255,0.96), rgba(255,255,255,0.78)),
-                linear-gradient(135deg, transparent 0 38%, rgba(232,224,212,0.5) 38% 39%, transparent 39% 100%);
+                linear-gradient(90deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.82) 42%, rgba(255,255,255,0.36) 100%),
+                url('assets/map-card-bg.png') center / cover no-repeat;
             border: 1px solid rgba(90,78,61,0.09);
             box-shadow: 0 8px 20px rgba(75,61,43,0.08);
         }
         .map-wrapper .service-card::after {
-            content: '';
-            position: absolute;
-            left: 44%;
-            top: 20px;
-            width: 86px;
-            height: 48px;
-            border-top: 3px dotted rgba(240,116,101,0.55);
-            border-radius: 50%;
-            transform: rotate(-12deg);
-            pointer-events: none;
+            display: none;
         }
         .map-wrapper .service-info {
             position: relative;
             z-index: 1;
+        }
+        .map-wrapper .service-name {
+            font-size: 0.94rem;
+            line-height: 1.15;
+            letter-spacing: -0.2px;
         }
         .map-wrapper .service-desc::after {
             content: '  길찾기 시작';
@@ -819,7 +824,8 @@
         .service-cards {
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 8px;
-            padding: 0 10px 8px;
+            padding: 0 10px 6px;
+            margin-top: -1px;
         }
         .service-card {
             min-height: 92px;
@@ -832,6 +838,9 @@
             background: #FFFDF9;
             border: 1px solid rgba(90,78,61,0.09);
             box-shadow: 0 8px 18px rgba(75,61,43,0.07);
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
         }
         .service-card::before {
             display: none;
@@ -880,10 +889,11 @@
             height: 13px;
         }
         .notice-section {
-            padding: 0 10px 8px;
+            padding: 0 10px 7px;
         }
         #promo-video {
-            padding-top: 8px;
+            padding-top: 0;
+            margin-top: -2px;
         }
         .notice-title {
             margin-bottom: 7px;
@@ -970,7 +980,7 @@ function openExternalBrowser() {
 
 <div class="content-area">
     <div class="home-topbar">
-        <div class="home-brand"><span class="home-brand-mark">✝</span><span>혜림교회</span></div>
+        <div class="home-brand"><img src="assets/hyerim-logo.png" alt="혜림교회"></div>
         <div class="home-alert" aria-label="알림">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         </div>
