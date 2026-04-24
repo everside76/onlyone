@@ -837,11 +837,19 @@
             display: none;
         }
         .service-icon {
-            width: 47px;
-            height: 39px;
-            border-radius: 11px;
-            font-size: 1.45rem;
-            box-shadow: 0 6px 12px rgba(75,61,43,0.12);
+            width: 52px;
+            height: 44px;
+            border-radius: 13px;
+            font-size: 0;
+            background: transparent !important;
+            box-shadow: 0 6px 12px rgba(75,61,43,0.1);
+            overflow: hidden;
+        }
+        .service-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
         .icon-events { background: linear-gradient(135deg, #FF8B6F, #EE5F50); }
         .icon-games { background: linear-gradient(135deg, #7662D6, #AFA1F4); }
@@ -992,7 +1000,7 @@ function openExternalBrowser() {
 
     <div class="map-wrapper">
         <a href="https://map.naver.com/p/entry/place/12205375" target="_blank" rel="noopener" class="service-card map-card">
-            <div class="service-icon icon-map">📍</div>
+            <div class="service-icon icon-map"><img src="assets/icons/map.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">혜림교회 길찾기</div>
                 <div class="service-desc">네이버지도에서 위치를 확인하세요</div>
@@ -1005,7 +1013,7 @@ function openExternalBrowser() {
 
     <div class="service-cards">
         <a href="events/index.html" class="service-card">
-            <div class="service-icon icon-events">🎪</div>
+            <div class="service-icon icon-events"><img src="assets/icons/events.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">행사 안내 / 영상</div>
                 <div class="service-desc">다양한 행사 정보와 영상을 확인하세요</div>
@@ -1016,7 +1024,7 @@ function openExternalBrowser() {
         </a>
 
         <a href="games/index.html" class="service-card">
-            <div class="service-icon icon-games">🎮</div>
+            <div class="service-icon icon-games"><img src="assets/icons/games.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">모바일 게임</div>
                 <div class="service-desc">간단한 게임으로 즐거운 시간!</div>
@@ -1027,7 +1035,7 @@ function openExternalBrowser() {
         </a>
 
         <a href="coupons/index.html" class="service-card">
-            <div class="service-icon icon-coupons">🎟️</div>
+            <div class="service-icon icon-coupons"><img src="assets/icons/coupons.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">쿠폰 다운로드</div>
                 <div class="service-desc">음식 교환권을 받아가세요!</div>
@@ -1038,7 +1046,7 @@ function openExternalBrowser() {
         </a>
 
         <a href="bible/index.html" class="service-card">
-            <div class="service-icon icon-bible">✨</div>
+            <div class="service-icon icon-bible"><img src="assets/icons/bible.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">말씀 카드</div>
                 <div class="service-desc">지금 주시는 말씀을 카드로 저장!</div>
@@ -1049,7 +1057,7 @@ function openExternalBrowser() {
         </a>
 
         <a href="characters/index.html" class="service-card">
-            <div class="service-icon icon-characters">📖</div>
+            <div class="service-icon icon-characters"><img src="assets/icons/characters.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">성경 인물 도감</div>
                 <div class="service-desc">성경 퀴즈로 인물을 만나보세요!</div>
@@ -1060,7 +1068,7 @@ function openExternalBrowser() {
         </a>
 
         <a href="#promo-video" class="service-card">
-            <div class="service-icon icon-video">▶️</div>
+            <div class="service-icon icon-video"><img src="assets/icons/promo.png" alt="" loading="lazy"></div>
             <div class="service-info">
                 <div class="service-name">홍보 영상</div>
                 <div class="service-desc">초대 영상을 확인하세요</div>
