@@ -586,6 +586,335 @@
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
+
+        /* Reference-image implementation with real illustration */
+        .content-area {
+            max-width: 430px;
+            min-height: 100vh;
+            padding: 0 10px 18px;
+            background: #F8F4EC;
+        }
+        .home-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 6px 6px;
+            color: #39342D;
+        }
+        .home-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+        .home-brand-mark {
+            color: #F07465;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        .home-alert {
+            display: grid;
+            place-items: center;
+            width: 31px;
+            height: 31px;
+            border: 1px solid rgba(72,61,47,0.1);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.74);
+            color: #5B554D;
+            box-shadow: 0 5px 14px rgba(85,72,54,0.08);
+        }
+        .hero {
+            min-height: 218px;
+            margin: 0;
+            padding: 18px 16px 86px;
+            border: 0;
+            border-radius: 22px 22px 16px 16px;
+            background:
+                linear-gradient(90deg, rgba(248,244,236,0.98) 0%, rgba(248,244,236,0.88) 42%, rgba(248,244,236,0.12) 76%),
+                url('assets/home-hero-illustration.png') right bottom / 82% auto no-repeat,
+                #F8F4EC;
+            box-shadow: none;
+        }
+        .hero > div:first-child {
+            display: block;
+            padding: 0;
+            margin: 0 0 3px !important;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: #7E7469 !important;
+            font-size: 0.66rem !important;
+            letter-spacing: 0 !important;
+            font-weight: 800 !important;
+        }
+        .hero > div:first-child::before {
+            display: none;
+        }
+        .hero-logo {
+            max-width: none;
+            margin-bottom: 6px;
+            font-size: clamp(1.92rem, 8.8vw, 2.28rem) !important;
+            line-height: 1.02;
+            font-weight: 900;
+            color: #1F1E1A;
+            text-shadow: 0 2px 0 rgba(255,255,255,0.7);
+            white-space: nowrap;
+        }
+        .hero-sub {
+            max-width: 220px;
+            color: #756B60;
+            font-size: 0.76rem;
+            line-height: 1.45;
+            font-weight: 800;
+        }
+        .hero-emojis {
+            display: none;
+        }
+        .dday-wrapper {
+            position: relative;
+            z-index: 2;
+            margin-top: -74px;
+            padding: 0 10px 10px;
+        }
+        .dday-banner {
+            min-height: 116px;
+            display: grid;
+            grid-template-columns: 74px 1fr 72px;
+            gap: 0;
+            padding: 0;
+            border-radius: 14px;
+            color: #333029;
+            background: #FFFDF9;
+            border: 1px solid rgba(90,78,61,0.1);
+            box-shadow: 0 12px 28px rgba(75,61,43,0.13);
+        }
+        .dday-banner::before {
+            content: '2026\A REVIVAL\A ONLY\A ONE';
+            white-space: pre;
+            position: static;
+            display: grid;
+            place-items: center;
+            width: auto;
+            height: auto;
+            border-radius: 14px 0 0 14px;
+            background: linear-gradient(180deg, #F37D6D, #E76558);
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 800;
+            line-height: 1.42;
+            text-align: center;
+        }
+        .dday-banner::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 69px;
+            right: auto;
+            bottom: auto;
+            width: 12px;
+            height: 12px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background: #F8F4EC;
+            box-shadow: 0 -48px 0 #F8F4EC, 0 48px 0 #F8F4EC;
+        }
+        .dday-left {
+            display: none;
+        }
+        .dday-info {
+            min-width: 0;
+            display: grid;
+            place-items: center;
+            padding: 16px 10px 14px;
+            text-align: center;
+        }
+        .dday-label {
+            order: 1;
+            color: #B98954;
+            opacity: 1;
+            font-size: 0.74rem;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+        }
+        .dday-count {
+            order: 2;
+            color: #F09582;
+            font-size: clamp(3rem, 15vw, 4.35rem);
+            line-height: 0.95;
+            font-weight: 500;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+        .dday-count::before {
+            content: '';
+        }
+        .dday-count #dday-num {
+            font: inherit;
+        }
+        .dday-count .dday-unit {
+            color: #4A4036;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 900;
+            margin-left: 4px;
+        }
+        .dday-date {
+            order: 3;
+            margin-top: 2px;
+            color: #867B70;
+            font-size: 0.68rem;
+        }
+        .dday-banner .ticket-stamp {
+            display: grid;
+            place-items: center;
+            align-self: center;
+            justify-self: center;
+            width: 52px;
+            height: 52px;
+            border: 1px dashed #E5D8C6;
+            border-radius: 50%;
+            color: #D8C6B1;
+            font-size: 1.25rem;
+        }
+        .map-wrapper {
+            padding: 0 10px 8px;
+        }
+        .map-wrapper .service-card {
+            min-height: 104px;
+            border-radius: 14px;
+            padding: 12px 13px;
+            background:
+                linear-gradient(90deg, rgba(255,255,255,0.96), rgba(255,255,255,0.78)),
+                linear-gradient(135deg, transparent 0 38%, rgba(232,224,212,0.5) 38% 39%, transparent 39% 100%);
+            border: 1px solid rgba(90,78,61,0.09);
+            box-shadow: 0 8px 20px rgba(75,61,43,0.08);
+        }
+        .map-wrapper .service-card::after {
+            content: '';
+            position: absolute;
+            left: 44%;
+            top: 20px;
+            width: 86px;
+            height: 48px;
+            border-top: 3px dotted rgba(240,116,101,0.55);
+            border-radius: 50%;
+            transform: rotate(-12deg);
+            pointer-events: none;
+        }
+        .map-wrapper .service-info {
+            position: relative;
+            z-index: 1;
+        }
+        .map-wrapper .service-desc::after {
+            content: '  길찾기 시작';
+            display: inline-flex;
+            margin-top: 7px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: #5DA377;
+            color: #fff;
+            font-size: 0.66rem;
+            font-weight: 900;
+        }
+        .service-cards {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 0 10px 8px;
+        }
+        .service-card {
+            min-height: 92px;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 6px 8px;
+            text-align: center;
+            border-radius: 13px;
+            background: #FFFDF9;
+            border: 1px solid rgba(90,78,61,0.09);
+            box-shadow: 0 8px 18px rgba(75,61,43,0.07);
+        }
+        .service-card::before {
+            display: none;
+        }
+        .service-icon {
+            width: 47px;
+            height: 39px;
+            border-radius: 11px;
+            font-size: 1.45rem;
+            box-shadow: 0 6px 12px rgba(75,61,43,0.12);
+        }
+        .icon-events { background: linear-gradient(135deg, #FF8B6F, #EE5F50); }
+        .icon-games { background: linear-gradient(135deg, #7662D6, #AFA1F4); }
+        .icon-coupons { background: linear-gradient(135deg, #7CB66C, #A6D774); }
+        .icon-bible { background: linear-gradient(135deg, #DBB05E, #75A777); }
+        .icon-characters { background: linear-gradient(135deg, #C8915C, #8B6BD1); }
+        .icon-video { background: linear-gradient(135deg, #B98B58, #DDB46B); }
+        .service-name {
+            font-size: 0.72rem;
+            line-height: 1.2;
+            font-weight: 900;
+            word-break: keep-all;
+        }
+        .service-desc {
+            display: none;
+        }
+        .service-arrow {
+            right: 5px;
+            top: 50%;
+            width: 16px;
+            height: 16px;
+            transform: translateY(-50%);
+            color: #B4AA9D;
+            background: transparent;
+        }
+        .service-arrow svg {
+            width: 13px;
+            height: 13px;
+        }
+        .notice-section {
+            padding: 0 10px 8px;
+        }
+        #promo-video {
+            padding-top: 8px;
+        }
+        .notice-title {
+            margin-bottom: 7px;
+            padding-left: 2px;
+            font-size: 0.78rem;
+            color: #4D453C;
+        }
+        #promo-video .notice-title {
+            display: flex;
+        }
+        .notice-section > div[style*="border-radius"] {
+            border-radius: 13px !important;
+        }
+        .notice-item {
+            margin-bottom: 6px;
+            border-radius: 13px;
+            padding: 10px 12px;
+            font-size: 0.74rem;
+            background: #FFFDF9;
+        }
+        .home-footer {
+            padding-top: 8px;
+        }
+        #install-btn {
+            background: #5DA377 !important;
+            box-shadow: 0 8px 18px rgba(93,163,119,0.25) !important;
+        }
+
+        @media (min-width: 620px) {
+            .content-area {
+                padding-top: 0;
+            }
+            .hero {
+                padding: 22px 18px 92px;
+            }
+            .service-cards {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
@@ -632,6 +961,12 @@ function openExternalBrowser() {
 </script>
 
 <div class="content-area">
+    <div class="home-topbar">
+        <div class="home-brand"><span class="home-brand-mark">✝</span><span>혜림교회</span></div>
+        <div class="home-alert" aria-label="알림">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+    </div>
     <div class="hero">
         <div style="font-size:0.72rem;font-weight:700;color:var(--primary);letter-spacing:2px;margin-bottom:4px;animation:fadeIn 0.5s ease-out both;">2026_ Revival Only One</div>
         <div class="hero-logo" style="font-size:2.2rem;">뭉게뭉게챌린지</div>
@@ -647,10 +982,11 @@ function openExternalBrowser() {
         <div class="dday-banner" id="dday-banner">
             <div class="dday-left">🎉</div>
             <div class="dday-info">
-                <div class="dday-label">뭉게뭉게챌린지까지</div>
+                <div class="dday-label">D-DAY</div>
                 <div class="dday-count"><span id="dday-num">-</span><span class="dday-unit" id="dday-unit">일</span></div>
                 <div class="dday-date">2026년 5월 3일 (주일)</div>
             </div>
+            <div class="ticket-stamp">✝</div>
         </div>
     </div>
 
@@ -722,9 +1058,20 @@ function openExternalBrowser() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
         </a>
+
+        <a href="#promo-video" class="service-card">
+            <div class="service-icon icon-video">▶️</div>
+            <div class="service-info">
+                <div class="service-name">홍보 영상</div>
+                <div class="service-desc">초대 영상을 확인하세요</div>
+            </div>
+            <div class="service-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+        </a>
     </div>
 
-    <div class="notice-section" style="animation-delay:0.75s;">
+    <div class="notice-section" id="promo-video" style="animation-delay:0.75s;">
         <div class="notice-title">🎬 홍보 영상</div>
         <div style="border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;">
             <div style="position:relative;padding-bottom:177.78%;height:0;overflow:hidden;">
@@ -768,8 +1115,8 @@ function openExternalBrowser() {
     const unitEl = document.getElementById('dday-unit');
     const banner = document.getElementById('dday-banner');
     if (diffDays > 0) {
-        numEl.textContent = 'D-' + diffDays;
-        unitEl.textContent = '';
+        numEl.textContent = diffDays;
+        unitEl.textContent = '일';
     } else if (diffDays === 0) {
         numEl.textContent = '🎉 오늘!';
         unitEl.textContent = '';

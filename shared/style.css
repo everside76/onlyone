@@ -492,9 +492,13 @@ body::before {
 }
 
 .bottom-nav a.active {
-  background: #23221F;
+  background: rgba(240,116,101,0.13);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(35,34,31,0.18);
+  box-shadow: none;
+}
+
+.bottom-nav a.active {
+  color: #F07465;
 }
 
 .bottom-nav a.active::before {
