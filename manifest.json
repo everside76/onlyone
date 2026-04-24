@@ -4,8 +4,8 @@
     "description": "혜림교회 Revival Only One - 행사 안내, 모바일 게임, 쿠폰",
     "start_url": "/onlyone/index.html",
     "display": "standalone",
-    "background_color": "#F8F9FE",
-    "theme_color": "#6C5CE7",
+    "background_color": "#FFF9EF",
+    "theme_color": "#FFF9EF",
     "icons": [
         {
             "src": "icon-192.png",
