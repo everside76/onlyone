@@ -155,9 +155,11 @@
         .icon-bible { background: linear-gradient(135deg, #667eea, #764ba2); }
         .icon-characters { background: linear-gradient(135deg, #8E44AD, #3498DB); }
         .icon-map { background: linear-gradient(135deg, #03C75A, #00B894); }
-
         /* 길찾기 배너 */
         .map-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             padding: 0 16px 8px;
             max-width: 500px;
             margin: 0 auto;
@@ -626,9 +628,9 @@
             box-shadow: 0 5px 14px rgba(85,72,54,0.08);
         }
         .hero {
-            min-height: 228px;
+            min-height: 204px;
             margin: 0;
-            padding: 18px 16px 72px;
+            padding: 18px 16px 48px;
             border: 0;
             border-radius: 22px 22px 16px 16px;
             background:
@@ -786,7 +788,7 @@
         }
         .map-wrapper {
             padding: 0 10px 12px;
-            margin-top: 0;
+            margin-top: -18px;
         }
         .map-wrapper .service-card {
             min-height: 104px;
@@ -987,24 +989,12 @@ function openExternalBrowser() {
     </div>
     <div class="hero">
         <div style="font-size:0.72rem;font-weight:700;color:var(--primary);letter-spacing:2px;margin-bottom:4px;animation:fadeIn 0.5s ease-out both;">2026_ Revival Only One</div>
-        <div class="hero-logo" style="font-size:2.2rem;">뭉게뭉게챌린지</div>
+        <div class="hero-logo" style="font-size:2.2rem;">봄음악제</div>
         <p class="hero-sub">함께 걷는 여정, 한 사람을 향한 초대</p>
         <div class="hero-emojis">
             <span>⛪</span>
             <span>🌤️</span>
             <span>🍖</span>
-        </div>
-    </div>
-
-    <div class="dday-wrapper">
-        <div class="dday-banner" id="dday-banner">
-            <div class="dday-left">🎉</div>
-            <div class="dday-info">
-                <div class="dday-label">D-DAY</div>
-                <div class="dday-count"><span id="dday-num">-</span><span class="dday-unit" id="dday-unit">일</span></div>
-                <div class="dday-date">2026년 5월 3일 (주일)</div>
-            </div>
-            <div class="ticket-stamp">✝</div>
         </div>
     </div>
 
@@ -1093,7 +1083,7 @@ function openExternalBrowser() {
         <div class="notice-title">🎬 홍보 영상</div>
         <div style="border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;">
             <div style="position:relative;padding-bottom:177.78%;height:0;overflow:hidden;">
-                <iframe src="https://www.youtube.com/embed/ZqR5SPPmXiQ" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen loading="lazy"></iframe>
+                <iframe src="https://www.youtube.com/embed/CXRWWCYEIao" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen loading="lazy"></iframe>
             </div>
         </div>
     </div>
@@ -1121,31 +1111,8 @@ function openExternalBrowser() {
 </div>
 
 <script src="shared/components.js"></script>
-<script src="shared/effects.js"></script>
+<script src="shared/effects.js?v=20260427"></script>
 <script>
-// D-DAY 카운트다운
-(function renderDDay() {
-    const target = new Date('2026-05-03T00:00:00+09:00');
-    const now = new Date();
-    const diffMs = target - now;
-    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-    const numEl = document.getElementById('dday-num');
-    const unitEl = document.getElementById('dday-unit');
-    const banner = document.getElementById('dday-banner');
-    if (diffDays > 0) {
-        numEl.textContent = diffDays;
-        unitEl.textContent = '일';
-    } else if (diffDays === 0) {
-        numEl.textContent = '🎉 오늘!';
-        unitEl.textContent = '';
-        banner.querySelector('.dday-label').textContent = '뭉게뭉게챌린지가 열렸어요';
-    } else {
-        numEl.textContent = '🎊 성료';
-        unitEl.textContent = '';
-        banner.querySelector('.dday-label').textContent = '함께해주셔서 감사합니다';
-    }
-})();
-
 // 사운드 토글 UI
 function updateSoundButton() {
     const btn = document.getElementById('sound-toggle-btn');
