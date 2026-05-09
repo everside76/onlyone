@@ -73,10 +73,14 @@ const QUESTION_BANK = [
     }
 ];
 
-const PLAYER_COUNT = 6;
+const MIN_PLAYERS = 1;
+const MAX_PLAYERS = 12;
+const MAX_QUESTIONS = QUESTION_BANK.length;
 
 const state = {
-    mode: 6,
+    playerCount: 6,
+    mode: "single",
+    questionCount: 6,
     questions: [],
     solved: [],
     activeIndex: 0,
@@ -90,7 +94,14 @@ const els = {
     startButton: document.getElementById("start-button"),
     againButton: document.getElementById("again-button"),
     resetButton: document.getElementById("reset-button"),
+    playerMinus: document.getElementById("player-minus"),
+    playerPlus: document.getElementById("player-plus"),
+    playerCount: document.getElementById("player-count"),
     modeButtons: Array.from(document.querySelectorAll(".mode-card")),
+    singleModeTitle: document.getElementById("single-mode-title"),
+    singleModeDesc: document.getElementById("single-mode-desc"),
+    doubleModeTitle: document.getElementById("double-mode-title"),
+    doubleModeDesc: document.getElementById("double-mode-desc"),
     treasureGrid: document.getElementById("treasure-grid"),
     gemTray: document.getElementById("gem-tray"),
     gemCount: document.getElementById("gem-count"),
@@ -106,20 +117,49 @@ const els = {
     feedback: document.getElementById("feedback")
 };
 
+function getQuestionCount(mode = state.mode) {
+    const multiplier = mode === "double" ? 2 : 1;
+    return Math.min(state.playerCount * multiplier, MAX_QUESTIONS);
+}
+
+function setPlayerCount(playerCount) {
+    state.playerCount = Math.max(MIN_PLAYERS, Math.min(MAX_PLAYERS, playerCount));
+    state.questionCount = getQuestionCount();
+    renderStartOptions();
+}
+
 function setMode(mode) {
     state.mode = mode;
+    state.questionCount = getQuestionCount(mode);
+    renderStartOptions();
+}
+
+function renderStartOptions() {
+    const singleCount = getQuestionCount("single");
+    const doubleCount = getQuestionCount("double");
+    const cappedDouble = state.playerCount * 2 > MAX_QUESTIONS;
+
+    els.playerCount.textContent = String(state.playerCount);
+    els.playerMinus.disabled = state.playerCount === MIN_PLAYERS;
+    els.playerPlus.disabled = state.playerCount === MAX_PLAYERS;
+    els.singleModeTitle.textContent = `${singleCount}문제`;
+    els.singleModeDesc.textContent = "한 명당 한 번";
+    els.doubleModeTitle.textContent = `${doubleCount}문제`;
+    els.doubleModeDesc.textContent = cappedDouble ? "가능한 만큼 한 번 더" : "한 명당 두 번";
+
     els.modeButtons.forEach((button) => {
-        button.classList.toggle("selected", Number(button.dataset.mode) === mode);
+        button.classList.toggle("selected", button.dataset.mode === state.mode);
     });
 }
 
 function startGame() {
-    state.questions = QUESTION_BANK.slice(0, state.mode);
-    state.solved = Array.from({ length: state.mode }, () => false);
+    state.questionCount = getQuestionCount();
+    state.questions = QUESTION_BANK.slice(0, state.questionCount);
+    state.solved = Array.from({ length: state.questionCount }, () => false);
     state.activeIndex = 0;
     state.locked = false;
 
-    els.gemTotal.textContent = String(state.mode);
+    els.gemTotal.textContent = String(state.questionCount);
     els.startScreen.classList.add("hidden");
     els.finishScreen.classList.add("hidden");
     els.gameScreen.classList.remove("hidden");
@@ -161,15 +201,15 @@ function renderGemTray() {
 }
 
 function updateProgressText() {
-    const playerNumber = (state.activeIndex % PLAYER_COUNT) + 1;
-    const roundNumber = Math.floor(state.activeIndex / PLAYER_COUNT) + 1;
-    const roundSuffix = state.mode > PLAYER_COUNT ? ` · ${roundNumber}번째 바퀴` : "";
+    const playerNumber = (state.activeIndex % state.playerCount) + 1;
+    const roundNumber = Math.floor(state.activeIndex / state.playerCount) + 1;
+    const roundSuffix = state.questionCount > state.playerCount ? ` · ${roundNumber}번째 바퀴` : "";
 
     els.turnPill.textContent = `${playerNumber}번 친구 차례${roundSuffix}`;
     els.roundTitle.textContent = `${playerNumber}번 친구가 보물을 열 차례예요`;
-    els.guideText.textContent = state.mode > PLAYER_COUNT
-        ? "12문제 모드는 한 명씩 두 번 돌아가며 말씀 보석을 모아요."
-        : "한 명씩 차례대로 보물칸을 눌러 말씀 보석을 모아요.";
+    els.guideText.textContent = state.questionCount > state.playerCount
+        ? `${state.playerCount}명이 돌아가며 말씀 보석 ${state.questionCount}개를 모아요.`
+        : `${state.playerCount}명이 한 명씩 차례대로 말씀 보석을 모아요.`;
 }
 
 function openQuestion(index) {
@@ -183,7 +223,7 @@ function openQuestion(index) {
     }
 
     const question = state.questions[index];
-    const playerNumber = (index % PLAYER_COUNT) + 1;
+    const playerNumber = (index % state.playerCount) + 1;
 
     els.playerLabel.textContent = `${playerNumber}번 친구`;
     els.lessonLabel.textContent = question.lesson;
@@ -251,11 +291,13 @@ function resetToStart() {
 }
 
 els.modeButtons.forEach((button) => {
-    button.addEventListener("click", () => setMode(Number(button.dataset.mode)));
+    button.addEventListener("click", () => setMode(button.dataset.mode));
 });
 
+els.playerMinus.addEventListener("click", () => setPlayerCount(state.playerCount - 1));
+els.playerPlus.addEventListener("click", () => setPlayerCount(state.playerCount + 1));
 els.startButton.addEventListener("click", startGame);
 els.againButton.addEventListener("click", startGame);
 els.resetButton.addEventListener("click", resetToStart);
 
-setMode(6);
+renderStartOptions();

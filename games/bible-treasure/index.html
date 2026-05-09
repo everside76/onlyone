@@ -20,16 +20,28 @@
                 </div>
             </div>
             <h1 id="start-title">말씀 보물 릴레이</h1>
-            <p class="lead">초2 6명이 한 명씩 보물칸을 열고, 22과부터 24과까지 핵심 말씀을 함께 복습해요.</p>
+            <p class="lead">플레이할 친구 수를 고르고, 한 명씩 보물칸을 열며 22과부터 24과까지 핵심 말씀을 함께 복습해요.</p>
+
+            <div class="player-panel" aria-label="플레이할 친구 수 선택">
+                <p class="panel-label">플레이할 친구 수</p>
+                <div class="player-picker">
+                    <button class="step-button" type="button" id="player-minus" aria-label="친구 수 줄이기">-</button>
+                    <div class="player-count-display">
+                        <strong id="player-count">6</strong>
+                        <span>명</span>
+                    </div>
+                    <button class="step-button" type="button" id="player-plus" aria-label="친구 수 늘리기">+</button>
+                </div>
+            </div>
 
             <div class="mode-panel" role="group" aria-label="문제 수 선택">
-                <button class="mode-card selected" type="button" data-mode="6">
-                    <strong>6문제</strong>
-                    <span>한 명당 한 번, 약 10분</span>
+                <button class="mode-card selected" type="button" data-mode="single">
+                    <strong id="single-mode-title">6문제</strong>
+                    <span id="single-mode-desc">한 명당 한 번, 약 10분</span>
                 </button>
-                <button class="mode-card" type="button" data-mode="12">
-                    <strong>12문제</strong>
-                    <span>한 명당 두 번, 약 15분</span>
+                <button class="mode-card" type="button" data-mode="double">
+                    <strong id="double-mode-title">12문제</strong>
+                    <span id="double-mode-desc">한 명당 두 번, 약 15분</span>
                 </button>
             </div>
 
