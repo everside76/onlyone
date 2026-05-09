@@ -179,14 +179,6 @@ h1 {
     overflow-wrap: anywhere;
 }
 
-.mode-panel {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    width: min(560px, calc(100vw - 32px));
-    margin: 16px 0 22px;
-}
-
 .player-panel {
     width: min(420px, calc(100vw - 32px));
     margin-top: 24px;
@@ -253,39 +245,11 @@ h1 {
     transform: translateY(3px);
 }
 
-.mode-card {
-    min-height: 96px;
-    border: 2px solid rgba(255, 244, 195, 0.45);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff9e8;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    cursor: pointer;
-}
-
-.mode-card strong {
-    font-size: 1.35rem;
-}
-
-.mode-card span {
-    font-size: 0.92rem;
-    color: rgba(255, 249, 226, 0.76);
-}
-
-.mode-card.selected {
-    background: var(--surface);
-    color: var(--ink);
-    border-color: var(--gold);
-    box-shadow: 0 12px 24px rgba(246, 185, 59, 0.28);
-}
-
-.mode-card.selected span {
-    color: var(--muted);
+.start-note {
+    margin: 16px 0 20px;
+    color: rgba(255, 249, 226, 0.82);
+    font-size: 0.98rem;
+    font-weight: 900;
 }
 
 .primary-action,
@@ -756,13 +720,6 @@ blockquote {
         border-width: 3px;
     }
 
-    .mode-panel {
-        grid-template-columns: 1fr;
-        width: min(270px, calc(100vw - 64px));
-        gap: 8px;
-        margin: 12px 0 16px;
-    }
-
     .player-panel {
         width: min(270px, calc(100vw - 64px));
         margin-top: 14px;
@@ -797,13 +754,9 @@ blockquote {
         line-height: 1.52;
     }
 
-    .mode-card {
-        min-height: 86px;
-        padding: 12px;
-    }
-
-    .mode-card strong {
-        font-size: 1.24rem;
+    .start-note {
+        margin: 12px 0 16px;
+        font-size: 0.82rem;
     }
 
     .primary-action {
