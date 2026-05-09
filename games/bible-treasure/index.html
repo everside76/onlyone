@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>말씀 보물 릴레이</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app" id="app">
+        <section class="start-screen" id="start-screen" aria-labelledby="start-title">
+            <div class="brand-mark" aria-hidden="true">
+                <span class="spark spark-a"></span>
+                <span class="spark spark-b"></span>
+                <span class="spark spark-c"></span>
+                <div class="chest closed">
+                    <div class="chest-lid"></div>
+                    <div class="chest-body"></div>
+                    <div class="chest-lock"></div>
+                </div>
+            </div>
+            <h1 id="start-title">말씀 보물 릴레이</h1>
+            <p class="lead">초2 6명이 한 명씩 보물칸을 열고, 22과부터 24과까지 핵심 말씀을 함께 복습해요.</p>
+
+            <div class="mode-panel" role="group" aria-label="문제 수 선택">
+                <button class="mode-card selected" type="button" data-mode="6">
+                    <strong>6문제</strong>
+                    <span>한 명당 한 번, 약 10분</span>
+                </button>
+                <button class="mode-card" type="button" data-mode="12">
+                    <strong>12문제</strong>
+                    <span>한 명당 두 번, 약 15분</span>
+                </button>
+            </div>
+
+            <button class="primary-action" type="button" id="start-button">게임 시작</button>
+        </section>
+
+        <section class="game-screen hidden" id="game-screen" aria-label="말씀 보물지도">
+            <header class="top-bar">
+                <button class="ghost-button" type="button" id="reset-button">처음으로</button>
+                <div class="turn-pill" id="turn-pill">1번 친구 차례</div>
+                <div class="gem-score"><span id="gem-count">0</span>/<span id="gem-total">6</span> 보석</div>
+            </header>
+
+            <section class="map-stage">
+                <div class="map-copy">
+                    <p class="small-title">말씀 보물지도</p>
+                    <h2 id="round-title">한 사람씩 차례대로 보물을 열어보세요!</h2>
+                    <p id="guide-text">보물칸을 누르면 문제가 나와요. 맞히면 말씀 보석을 얻습니다.</p>
+                </div>
+
+                <div class="treasure-grid" id="treasure-grid"></div>
+
+                <div class="gem-tray" id="gem-tray" aria-label="획득한 말씀 보석"></div>
+            </section>
+        </section>
+
+        <section class="question-modal hidden" id="question-modal" aria-modal="true" role="dialog" aria-labelledby="question-title">
+            <div class="question-card">
+                <div class="question-topline">
+                    <span id="player-label">1번 친구</span>
+                    <span id="lesson-label">22과</span>
+                </div>
+                <h2 id="question-title"></h2>
+                <div class="options" id="options"></div>
+                <div class="feedback" id="feedback" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <section class="finish-screen hidden" id="finish-screen" aria-labelledby="finish-title">
+            <div class="finish-glow" aria-hidden="true"></div>
+            <div class="chest open" aria-hidden="true">
+                <div class="chest-lid"></div>
+                <div class="chest-body"></div>
+                <div class="chest-lock"></div>
+            </div>
+            <h2 id="finish-title">보물상자가 열렸어요!</h2>
+            <p class="finish-message">예수님은 우리의 새 대표예요.</p>
+            <blockquote>
+                하나님은 사람을 하나님의 형상대로 만드셨어요.<br>
+                하지만 죄가 들어와 하나님과 멀어졌고,<br>
+                우리는 새 대표이신 예수님이 필요해요.
+            </blockquote>
+            <div class="finish-actions">
+                <button class="primary-action" type="button" id="again-button">다시 하기</button>
+                <a class="secondary-link" href="../index.html">게임 목록</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="game.js"></script>
+</body>
+</html>
