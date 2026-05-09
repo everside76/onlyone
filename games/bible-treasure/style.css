@@ -534,7 +534,7 @@ h1 {
 
 .question-visual,
 .answer-thumb {
-    background-image: url("assets/quiz-illustrations.png");
+    background-image: url("assets/quiz-illustrations.png?v=2");
     background-size: 400% 300%;
     background-repeat: no-repeat;
 }
