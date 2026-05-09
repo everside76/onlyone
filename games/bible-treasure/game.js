@@ -3,73 +3,85 @@ const QUESTION_BANK = [
         lesson: "22과",
         question: "하나님은 사람을 누구의 형상대로 만드셨나요?",
         options: ["동물", "하나님의 형상", "천사"],
-        answer: 1
+        answer: 1,
+        imageIndex: 0
     },
     {
         lesson: "22과",
         question: "하나님의 형상은 무엇을 닮은 것인가요?",
         options: ["겉모습", "속마음과 성품", "힘"],
-        answer: 1
+        answer: 1,
+        imageIndex: 1
     },
     {
         lesson: "22과",
         question: "처음 사람은 어떤 마음으로 하나님을 알 수 있었나요?",
         options: ["하나님을 아는 지식", "장난치는 마음", "숨는 마음"],
-        answer: 0
+        answer: 0,
+        imageIndex: 2
     },
     {
         lesson: "22과",
         question: "하나님이 처음 사람에게 주신 아름다운 성품은 무엇인가요?",
         options: ["거짓과 미움", "의와 참된 거룩함", "무서움"],
-        answer: 1
+        answer: 1,
+        imageIndex: 3
     },
     {
         lesson: "23과",
         question: "아담과 하와를 유혹한 것은 누구였나요?",
         options: ["뱀", "사자", "새"],
-        answer: 0
+        answer: 0,
+        imageIndex: 4
     },
     {
         lesson: "23과",
         question: "아담과 하와는 누구의 말보다 뱀의 말을 믿었나요?",
         options: ["하나님의 말씀", "천사의 노래", "친구의 말"],
-        answer: 0
+        answer: 0,
+        imageIndex: 5
     },
     {
         lesson: "23과",
         question: "죄가 들어오자 무엇이 깨졌나요?",
         options: ["하나님과의 관계", "운동장", "집"],
-        answer: 0
+        answer: 0,
+        imageIndex: 6
     },
     {
         lesson: "23과",
         question: "죄 때문에 우리에게 꼭 필요한 분은 누구인가요?",
         options: ["구원자", "심부름꾼", "요리사"],
-        answer: 0
+        answer: 0,
+        imageIndex: 7
     },
     {
         lesson: "24과",
         question: "아담은 누구의 대표였나요?",
         options: ["자기 혼자", "모든 사람", "동물들"],
-        answer: 1
+        answer: 1,
+        imageIndex: 8
     },
     {
         lesson: "24과",
         question: "아담의 죄는 누구에게 영향을 주었나요?",
         options: ["아담 혼자", "모든 사람", "뱀만"],
-        answer: 1
+        answer: 1,
+        imageIndex: 9
     },
     {
         lesson: "24과",
         question: "우리에게 필요한 새 대표는 누구인가요?",
         options: ["노아", "다윗", "예수님"],
-        answer: 2
+        answer: 2,
+        imageIndex: 10
     },
     {
         lesson: "24과",
         question: "예수님은 우리에게 무엇을 주시나요?",
         options: ["용서와 생명", "죄와 죽음", "두려움"],
-        answer: 0
+        answer: 0,
+        imageIndex: 11
     }
 ];
 
@@ -112,10 +124,24 @@ const els = {
     modal: document.getElementById("question-modal"),
     playerLabel: document.getElementById("player-label"),
     lessonLabel: document.getElementById("lesson-label"),
+    questionVisual: document.getElementById("question-visual"),
     questionTitle: document.getElementById("question-title"),
     options: document.getElementById("options"),
+    answerReveal: document.getElementById("answer-reveal"),
+    answerThumb: document.getElementById("answer-thumb"),
+    answerText: document.getElementById("answer-text"),
     feedback: document.getElementById("feedback")
 };
+
+function getImagePosition(imageIndex) {
+    const col = imageIndex % 4;
+    const row = Math.floor(imageIndex / 4);
+    return `${col * 33.3333}% ${row * 50}%`;
+}
+
+function setIllustration(element, imageIndex) {
+    element.style.backgroundPosition = getImagePosition(imageIndex);
+}
 
 function getQuestionCount(mode = state.mode) {
     const multiplier = mode === "double" ? 2 : 1;
@@ -229,6 +255,10 @@ function openQuestion(index) {
     els.lessonLabel.textContent = question.lesson;
     els.questionTitle.textContent = question.question;
     els.feedback.textContent = "";
+    els.answerReveal.classList.add("hidden");
+    els.answerText.textContent = "";
+    setIllustration(els.questionVisual, question.imageIndex);
+    setIllustration(els.answerThumb, question.imageIndex);
     els.options.innerHTML = question.options.map((option, optionIndex) => (
         `<button class="option-button" type="button" data-option="${optionIndex}">${optionIndex + 1}. ${option}</button>`
     )).join("");
@@ -261,6 +291,8 @@ function checkAnswer(questionIndex, selectedIndex) {
 
     state.locked = true;
     selectedButton.classList.add("correct");
+    els.answerText.textContent = `정답: ${question.options[question.answer]}`;
+    els.answerReveal.classList.remove("hidden");
     els.feedback.textContent = "정답! 말씀 보석을 얻었어요.";
 
     window.setTimeout(() => {
